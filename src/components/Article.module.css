@@ -1,0 +1,82 @@
+.articleBox {
+    border-radius: 0.8rem;
+    width: 80vw;
+    background-color: var(--GY-white);
+
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    padding: 0.5rem;
+}
+
+.articleImg {
+    width: 12.5rem;
+    border-radius: 0.5rem;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.noneInteraction {
+    /* flex: 1 1 0; */
+    display: flex;
+    flex-direction: row;
+}
+.context{
+    display: flex;
+    flex-direction: column;
+}
+.articleHeading {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+
+    color: var(--real-black);
+}
+
+.artContents {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--GY-dark-gray);
+    line-height: 1.5rem;
+}
+
+.date {
+    margin-top: 0.5rem;
+    white-space: nowrap;
+    color: var(--GY-dark-gray);
+}
+
+.btns {
+    padding: 0.25rem 0;
+    flex: 1 1 0;
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.btn {
+    width: 10rem;
+    cursor: pointer;
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 0.5rem;
+
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.yes {
+    background-color: var(--GY-green);
+    color: var(--GY-dark-green);
+}
+
+.no {
+    background-color: var(--GY-red);
+    color: var(--GY-dark-red);
+}

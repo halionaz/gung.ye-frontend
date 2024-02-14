@@ -1,8 +1,9 @@
 import Article from "@/components/Article";
+import style from "./page.module.css";
 
 export default function Home() {
     return (
-        <main>
+        <main className={style.home}>
             <Article />
         </main>
     );
