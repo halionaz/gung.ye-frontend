@@ -1,3 +1,9 @@
+import Article from "@/components/Article";
+
 export default function Home() {
-    return <main>Test Page</main>;
+    return (
+        <main>
+            <Article />
+        </main>
+    );
 }
