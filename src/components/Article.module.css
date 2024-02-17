@@ -8,6 +8,7 @@
     gap: 1rem;
 
     padding: 0.5rem;
+    margin: 1rem 0;
 }
 
 .articleImg {
@@ -49,11 +50,16 @@
     color: var(--GY-dark-gray);
 }
 
+.btm{
+    flex: 1 1 0;
+    align-items: stretch;
+    display: flex;
+    justify-content: space-between;
+}
+
 .btns {
     padding: 0.25rem 0;
-    flex: 1 1 0;
     display: flex;
-    align-items: stretch;
     gap: 1rem;
 }
 
