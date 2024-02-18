@@ -11,6 +11,9 @@ export default function Home() {
             <SessionProvider>
                 <Login />
             </SessionProvider>
+            <button onClick={()=>{
+                // 새 글을 추가하는 로직
+            }}>새 글 추가</button>
             <Article />
             <Article />
             <Article />
