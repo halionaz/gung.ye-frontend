@@ -1,6 +1,9 @@
+import { Timestamp } from "firebase/firestore";
 import style from "./Article.module.css";
 
-const Article = ({ title, imgsrc, text }) => {
+const Article = ({ title, imgsrc, text, outdate }) => {
+    const date = new Timestamp(outdate.seconds, outdate.nanoseconds).toDate();
+
     return (
         <div className={style.articleBox}>
             <img className={style.articleImg} src={imgsrc}></img>
@@ -10,7 +13,9 @@ const Article = ({ title, imgsrc, text }) => {
                         <h2 className={style.articleHeading}>{title}</h2>
                         <div className={style.artContents}>{text}</div>
                     </div>
-                    <div className={style.date}>EXP : 2024/02/14</div>
+                    <div className={style.date}>
+                        EXP : {date.toLocaleDateString()}
+                    </div>
                 </div>
                 <div className={style.btm}>
                     <div className={style.btns}>
@@ -21,7 +26,6 @@ const Article = ({ title, imgsrc, text }) => {
                             아니오
                         </div>
                     </div>
-                    <div className={style.goFull}>바로가기</div>
                 </div>
             </div>
         </div>

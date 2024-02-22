@@ -10,6 +10,9 @@ export default function Home() {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // 새 아티클 작성 여부
+    const [writing, setWriting] = useState(false);
+
     useEffect(() => {
         fetch("/api/articles", {
             cache: "no-store",
@@ -28,17 +31,28 @@ export default function Home() {
             </SessionProvider>
             <button
                 onClick={() => {
-                    // 새 글을 추가하는 로직
+                    setWriting((prev) => {
+                        return !prev;
+                    });
                 }}
             >
-                새 글 추가
+                {writing ? "취소" : "새 글 추가"}
             </button>
+            {writing && <div className={style.newArticle}>새 글 작성창</div>}
             {loading ? (
                 <div>로딩중</div>
             ) : (
                 articles.map((article, index) => {
                     // console.log(article);
-                    return <Article key={index} title={article.title} imgsrc = {article.imgsrc} text={article.text} />;
+                    return (
+                        <Article
+                            key={index}
+                            title={article.title}
+                            imgsrc={article.imgsrc}
+                            text={article.text}
+                            outdate={article.deadline}
+                        />
+                    );
                 })
             )}
         </main>
