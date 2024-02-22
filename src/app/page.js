@@ -5,6 +5,7 @@ import style from "./page.module.css";
 import Login from "@/components/Login";
 import { SessionProvider } from "next-auth/react";
 import { useEffect, useState } from "react";
+import NewArticle from "@/components/NewArticle";
 
 export default function Home() {
     const [articles, setArticles] = useState([]);
@@ -38,7 +39,7 @@ export default function Home() {
             >
                 {writing ? "취소" : "새 글 추가"}
             </button>
-            {writing && <div className={style.newArticle}>새 글 작성창</div>}
+            {writing && <NewArticle />}
             {loading ? (
                 <div>로딩중</div>
             ) : (
