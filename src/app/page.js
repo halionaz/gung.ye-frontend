@@ -37,8 +37,8 @@ export default function Home() {
                 <div>로딩중</div>
             ) : (
                 articles.map((article, index) => {
-                    console.log(article.title);
-                    return <Article key={index} />;
+                    // console.log(article);
+                    return <Article key={index} title={article.title} imgsrc = {article.imgsrc} text={article.text} />;
                 })
             )}
         </main>
