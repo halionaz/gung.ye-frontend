@@ -8,6 +8,7 @@ const NewArticle = () => {
     const [deadline, setDeadline] = useState(
         today.toISOString().substring(0, 10)
     );
+    const [imgsrc, setImgsrc] = useState("");
 
     return (
         <div>
@@ -38,6 +39,15 @@ const NewArticle = () => {
                     setDeadline(event.target.value);
                 }}
             />
+            <input
+                name="imgsrc"
+                type="url"
+                value={imgsrc}
+                placeholder="이미지 링크를 입력하세요"
+                onChange={(event) => {
+                    setImgsrc(event.target.value);
+                }}
+            />
             <button
                 name="submit"
                 onClick={(event) => {
@@ -47,7 +57,8 @@ const NewArticle = () => {
                             title: title,
                             text: text,
                             uid: "halion#1234",
-                            deadline : deadline
+                            deadline: deadline,
+                            imgsrc,
                         }),
                     }).then((res) => {
                         console.log(res);

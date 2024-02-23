@@ -23,6 +23,7 @@ export async function POST(request) {
     const text = reqData.text;
     const writer = reqData.uid;
     const deadline = reqData.deadline;
+    const imgsrc = reqData.imgsrc
 
     try {
         const docRef = await addDoc(collection(db, "articles"), {
@@ -31,7 +32,7 @@ export async function POST(request) {
             writer,
             deadline: Timestamp.fromDate(new Date(deadline)),
             postingDate: Timestamp.fromDate(new Date()),
-            imgsrc: "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
+            imgsrc,
         });
     } catch (err) {
         console.error(err);
