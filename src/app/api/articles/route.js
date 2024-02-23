@@ -29,9 +29,9 @@ export async function POST(request) {
             title,
             text,
             writer,
-            deadline: new Timestamp(1708660199),
-            postingDate: new Timestamp(1708660199),
-            imgsrc: "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316"
+            deadline: Timestamp.fromDate(new Date(deadline)),
+            postingDate: Timestamp.fromDate(new Date()),
+            imgsrc: "https://assets.community.lomography.com/86/93d57e0bd8e88f6890c1687803700ab45f3007/576x576x2.jpg?auth=fb4474f73f10307f800cfe75a5a7052702f6d316",
         });
     } catch (err) {
         console.error(err);

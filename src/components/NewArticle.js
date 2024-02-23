@@ -1,8 +1,13 @@
 import { useState } from "react";
 
 const NewArticle = () => {
+    const today = new Date();
+
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
+    const [deadline, setDeadline] = useState(
+        today.toISOString().substring(0, 10)
+    );
 
     return (
         <div>
@@ -25,7 +30,14 @@ const NewArticle = () => {
                     setText(event.target.value);
                 }}
             />
-            <input name="deadline" type="date" />
+            <input
+                name="deadline"
+                type="date"
+                value={deadline}
+                onChange={(event) => {
+                    setDeadline(event.target.value);
+                }}
+            />
             <button
                 name="submit"
                 onClick={(event) => {
@@ -35,6 +47,7 @@ const NewArticle = () => {
                             title: title,
                             text: text,
                             uid: "halion#1234",
+                            deadline : deadline
                         }),
                     }).then((res) => {
                         console.log(res);
