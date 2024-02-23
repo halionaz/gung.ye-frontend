@@ -9,6 +9,15 @@ export async function GET(request) {
     querySnapshot.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
     });
-    
+
     return NextResponse.json(data);
+}
+
+export async function POST(request) {
+    const reqData = await request.json();
+    const title = reqData.title;
+    const text = reqData.text;
+    const writer = reqData.uid;
+    const deadline = reqData.deadline;
+    return NextResponse.json({ title, text, writer, deadline });
 }
