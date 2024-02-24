@@ -30,16 +30,27 @@ const Main = () => {
 
     return (
         <main className={style.main}>
+            {session && (
+                <div>
+                    <img
+                        className={style.userImg}
+                        src={session.user?.image}
+                    ></img>
+                    <div>{session.user?.name}</div>
+                </div>
+            )}
             <Login session={session} />
-            <button
-                onClick={() => {
-                    setWriting((prev) => {
-                        return !prev;
-                    });
-                }}
-            >
-                {writing ? "취소" : "새 글 추가"}
-            </button>
+            <div>
+                <button
+                    onClick={() => {
+                        setWriting((prev) => {
+                            return !prev;
+                        });
+                    }}
+                >
+                    {writing ? "취소" : "새 글 추가"}
+                </button>
+            </div>
             {writing && <NewArticle />}
             {loading ? (
                 <div>로딩중</div>
