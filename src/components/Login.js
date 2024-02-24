@@ -1,16 +1,10 @@
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
-const Login = () => {
-    const { data: session } = useSession();
-
-    if(session){
-        return (
-            <button onClick={() => signOut()}>로그아웃</button>
-        )
+const Login = ({ session }) => {
+    if (session) {
+        return <button onClick={() => signOut()}>로그아웃</button>;
     } else {
-        return (
-            <button onClick={() => signIn()}>로그인</button>
-        );
+        return <button onClick={() => signIn()}>로그인</button>;
     }
 };
 
