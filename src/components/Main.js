@@ -4,8 +4,8 @@ import Article from "@/components/Article";
 import style from "./Main.module.css";
 import Login from "@/components/Login";
 import { useEffect, useState } from "react";
-import NewArticle from "@/components/NewArticle";
 import { useSession } from "next-auth/react";
+import NewArticle from "./NewArticle/NewArticle";
 
 const Main = () => {
     // 로그인 세션 관리
