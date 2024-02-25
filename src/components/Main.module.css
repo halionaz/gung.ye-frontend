@@ -1,3 +1,15 @@
 .main{
     padding: 1rem;
 }
+
+.userInfo{
+    display: flex;
+    gap: 1rem;
+
+    align-items: center;
+}
+.userImg{
+    width: 3rem;
+
+    border-radius: 2rem;
+}

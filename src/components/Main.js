@@ -31,7 +31,7 @@ const Main = () => {
     return (
         <main className={style.main}>
             {session && (
-                <div>
+                <div className={style.userInfo}>
                     <img
                         className={style.userImg}
                         src={session.user?.image}
