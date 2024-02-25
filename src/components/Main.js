@@ -58,7 +58,7 @@ const Main = () => {
                     </button>
                 )}
             </div>
-            {writing && <NewArticle refreshData={refreshData} />}
+            {writing && <NewArticle refreshData={refreshData} setWriting={setWriting} />}
             {loading ? (
                 <div>로딩중</div>
             ) : (

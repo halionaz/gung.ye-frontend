@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "./NewArticle.module.css";
 
-const NewArticle = ({refreshData}) => {
+const NewArticle = ({refreshData, setWriting}) => {
     const today = new Date();
 
     const [title, setTitle] = useState("");
@@ -68,6 +68,7 @@ const NewArticle = ({refreshData}) => {
                         }),
                     }).then((res) => {
                         refreshData();
+                        setWriting(false);
                     });
                 }}
             >
