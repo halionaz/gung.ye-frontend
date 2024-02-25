@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import NewArticle from "./NewArticle/NewArticle";
 
-
 const Main = () => {
     // 로그인 세션 관리
     const { data: session } = useSession();
@@ -27,7 +26,7 @@ const Main = () => {
                 setArticles(data);
                 setLoading(false);
             });
-    }
+    };
 
     useEffect(() => {
         refreshData();
@@ -58,7 +57,13 @@ const Main = () => {
                     </button>
                 )}
             </div>
-            {writing && <NewArticle refreshData={refreshData} setWriting={setWriting} />}
+            {writing && (
+                <NewArticle
+                    refreshData={refreshData}
+                    setWriting={setWriting}
+                    userEmail={session.user?.email}
+                />
+            )}
             {loading ? (
                 <div>로딩중</div>
             ) : (
