@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "./NewArticle.module.css";
 
-const NewArticle = () => {
+const NewArticle = ({refreshData}) => {
     const today = new Date();
 
     const [title, setTitle] = useState("");
@@ -67,7 +67,7 @@ const NewArticle = () => {
                             imgsrc,
                         }),
                     }).then((res) => {
-                        console.log(res);
+                        refreshData();
                     });
                 }}
             >

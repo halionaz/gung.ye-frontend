@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import NewArticle from "./NewArticle/NewArticle";
 
+
 const Main = () => {
     // 로그인 세션 관리
     const { data: session } = useSession();
@@ -17,7 +18,7 @@ const Main = () => {
     // 새 아티클 작성 여부
     const [writing, setWriting] = useState(false);
 
-    useEffect(() => {
+    const refreshData = () => {
         fetch("/api/articles", {
             cache: "no-store",
         })
@@ -26,6 +27,10 @@ const Main = () => {
                 setArticles(data);
                 setLoading(false);
             });
+    }
+
+    useEffect(() => {
+        refreshData();
     }, []);
 
     return (
@@ -53,7 +58,7 @@ const Main = () => {
                     </button>
                 )}
             </div>
-            {writing && <NewArticle />}
+            {writing && <NewArticle refreshData={refreshData} />}
             {loading ? (
                 <div>로딩중</div>
             ) : (
