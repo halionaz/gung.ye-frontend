@@ -1,8 +1,14 @@
 import { useState } from "react";
 import style from "./NewArticle.module.css";
 
-const NewArticle = ({refreshData, setWriting}) => {
-    const today = new Date();
+const NewArticle = ({ refreshData, setWriting, userEmail }) => {
+
+    // 그냥 new Date()로 객체를 만든 뒤 ISOString으로 바꾸면 영국 시간이 나와버림
+    // 시차 조정
+    const offset = new Date().getTimezoneOffset() * 60000;
+    const today = new Date(Date.now() - offset);
+
+    console.log(today.toISOString().substring(0, 10));
 
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
@@ -62,7 +68,7 @@ const NewArticle = ({refreshData, setWriting}) => {
                         body: JSON.stringify({
                             title: title,
                             text: text,
-                            uid: "halion#1234",
+                            uid: userEmail,
                             deadline: deadline,
                             imgsrc,
                         }),
