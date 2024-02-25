@@ -1,4 +1,5 @@
 import { useState } from "react";
+import style from "./NewArticle.module.css";
 
 const NewArticle = () => {
     const today = new Date();
@@ -11,9 +12,10 @@ const NewArticle = () => {
     const [imgsrc, setImgsrc] = useState("");
 
     return (
-        <div>
+        <div className={style.component}>
             <input
                 name="title"
+                className={style.title}
                 type="text"
                 placeholder="제목을 입력하세요"
                 value={title}
@@ -24,6 +26,7 @@ const NewArticle = () => {
             />
             <textarea
                 name="text"
+                className={style.text}
                 placeholder="본문을 입력하세요"
                 value={text}
                 onChange={(event) => {
@@ -33,6 +36,7 @@ const NewArticle = () => {
             />
             <input
                 name="deadline"
+                className={style.deadline}
                 type="date"
                 value={deadline}
                 onChange={(event) => {
@@ -41,6 +45,7 @@ const NewArticle = () => {
             />
             <input
                 name="imgsrc"
+                className={style.imgsrcform}
                 type="url"
                 value={imgsrc}
                 placeholder="이미지 링크를 입력하세요"
@@ -50,6 +55,7 @@ const NewArticle = () => {
             />
             <button
                 name="submit"
+                className={style.submit}
                 onClick={(event) => {
                     fetch("/api/articles", {
                         method: "POST",

@@ -41,15 +41,17 @@ const Main = () => {
             )}
             <Login session={session} />
             <div>
-                <button
-                    onClick={() => {
-                        setWriting((prev) => {
-                            return !prev;
-                        });
-                    }}
-                >
-                    {writing ? "취소" : "새 글 추가"}
-                </button>
+                {session && (
+                    <button
+                        onClick={() => {
+                            setWriting((prev) => {
+                                return !prev;
+                            });
+                        }}
+                    >
+                        {writing ? "취소" : "새 글 추가"}
+                    </button>
+                )}
             </div>
             {writing && <NewArticle />}
             {loading ? (

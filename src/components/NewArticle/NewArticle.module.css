@@ -1,0 +1,10 @@
+.component{
+    display: flex;
+    width: 50%;
+
+    flex-direction: column;
+}
+
+.title, .deadline, .submit{
+    width: 50%;
+}
