@@ -1,7 +1,16 @@
 import { Timestamp } from "firebase/firestore";
 import style from "./Article.module.css";
 
-const Article = ({ title, imgsrc, text, outdate, writer, postingDate }) => {
+const Article = ({
+    id,
+    title,
+    imgsrc,
+    text,
+    outdate,
+    writer,
+    postingDate,
+    session,
+}) => {
     const outdateDate = new Timestamp(
         outdate.seconds,
         outdate.nanoseconds
@@ -39,6 +48,24 @@ const Article = ({ title, imgsrc, text, outdate, writer, postingDate }) => {
                             아니오
                         </div>
                     </div>
+                    {session?.user.email === writer && (
+                        <div
+                            className={style.deleteBtn}
+                            onClick={() => {
+                                fetch("/api/articles", {
+                                    method: "DELETE",
+                                    body: JSON.stringify({
+                                        id,
+                                    }),
+                                }).then((res) => {
+                                    refreshData();
+                                    setWriting(false);
+                                });
+                            }}
+                        >
+                            삭제
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

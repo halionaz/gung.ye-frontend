@@ -72,12 +72,14 @@ const Main = () => {
                     return (
                         <Article
                             key={index}
+                            id={article.id}
                             title={article.title}
                             imgsrc={article.imgsrc}
                             text={article.text}
                             outdate={article.deadline}
                             writer = {article.writer}
                             postingDate={article.postingDate}
+                            session={session}
                         />
                     );
                 })

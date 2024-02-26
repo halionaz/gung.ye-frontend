@@ -95,3 +95,7 @@
     background-color: var(--GY-red);
     color: var(--GY-dark-red);
 }
+
+.deleteBtn{
+    cursor: pointer;
+}
