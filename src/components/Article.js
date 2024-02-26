@@ -10,6 +10,7 @@ const Article = ({
     writer,
     postingDate,
     session,
+    refreshData,
 }) => {
     const outdateDate = new Timestamp(
         outdate.seconds,
@@ -59,7 +60,6 @@ const Article = ({
                                     }),
                                 }).then((res) => {
                                     refreshData();
-                                    setWriting(false);
                                 });
                             }}
                         >

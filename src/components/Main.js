@@ -80,6 +80,7 @@ const Main = () => {
                             writer = {article.writer}
                             postingDate={article.postingDate}
                             session={session}
+                            refreshData={refreshData}
                         />
                     );
                 })

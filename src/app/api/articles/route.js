@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { collection, getDocs, addDoc, Timestamp } from "firebase/firestore";
+import { collection, getDocs, addDoc, Timestamp, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -43,10 +43,22 @@ export async function POST(request) {
         } catch (err) {
             console.error(err);
         }
-        console.log("정상 제출");
         return NextResponse.json({ title, text, writer, deadline });
     } else {
-        console.log("이상 제출");
         return NextResponse.error();
     }
+}
+
+export async function DELETE(request) {
+    // request로 받은 id에 맞는 게시물 삭제
+
+    const reqData = await request.json();
+    const articleID = reqData.id;
+
+    const session = getServerSession(authOptions);
+    
+    // 현재 세션의 유저와 서버 게시물의 유저가 일치할 때만 삭제 진행
+    // if(session.id === )
+    // console.log(session.id === );
+
 }
