@@ -30,9 +30,7 @@ export async function POST(request) {
     const session = getServerSession(authOptions);
 
     if (session) {
-        
         // 사용자가 정상적으로 로그인 했을 때만 DB에 등록
-
         try {
             const docRef = await addDoc(collection(db, "articles"), {
                 title,

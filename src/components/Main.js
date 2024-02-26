@@ -68,7 +68,7 @@ const Main = () => {
                 <div>로딩중</div>
             ) : (
                 articles.map((article, index) => {
-                    // console.log(article);
+                    console.log(article);
                     return (
                         <Article
                             key={index}
@@ -76,6 +76,8 @@ const Main = () => {
                             imgsrc={article.imgsrc}
                             text={article.text}
                             outdate={article.deadline}
+                            writer = {article.writer}
+                            postingDate={article.postingDate}
                         />
                     );
                 })

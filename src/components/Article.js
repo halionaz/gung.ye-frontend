@@ -1,8 +1,15 @@
 import { Timestamp } from "firebase/firestore";
 import style from "./Article.module.css";
 
-const Article = ({ title, imgsrc, text, outdate }) => {
-    const date = new Timestamp(outdate.seconds, outdate.nanoseconds).toDate();
+const Article = ({ title, imgsrc, text, outdate, writer, postingDate }) => {
+    const outdateDate = new Timestamp(
+        outdate.seconds,
+        outdate.nanoseconds
+    ).toDate();
+    const postingDateDate = new Timestamp(
+        postingDate.seconds,
+        postingDate.nanoseconds
+    ).toDate();
 
     return (
         <div className={style.articleBox}>
@@ -13,8 +20,14 @@ const Article = ({ title, imgsrc, text, outdate }) => {
                         <h2 className={style.articleHeading}>{title}</h2>
                         <div className={style.artContents}>{text}</div>
                     </div>
-                    <div className={style.date}>
-                        EXP : {date.toLocaleDateString()}
+                    <div className={style.articleInfo}>
+                        <div className={style.outdate}>
+                            EXP : {outdateDate.toLocaleDateString()}
+                        </div>
+                        <div className={style.postingDate}>
+                            업로드 : {postingDateDate.toLocaleDateString()}
+                        </div>
+                        <div className={style.writer}>{writer}</div>
                     </div>
                 </div>
                 <div className={style.btm}>
