@@ -62,7 +62,7 @@ const NewArticle = ({ refreshData, setWriting, userEmail }) => {
             <button
                 name="submit"
                 className={style.submit}
-                onClick={(event) => {
+                onClick={() => {
                     fetch("/api/articles", {
                         method: "POST",
                         body: JSON.stringify({
