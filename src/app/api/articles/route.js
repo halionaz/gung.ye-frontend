@@ -57,8 +57,10 @@ export async function DELETE(request) {
 
     const session = getServerSession(authOptions);
     
-    // 현재 세션의 유저와 서버 게시물의 유저가 일치할 때만 삭제 진행
-    // if(session.id === )
-    // console.log(session.id === );
+    // 현재 세션의 유저와 서버 게시물의 유저가 일치할 때만 삭제 진행 해야 됨 < 진행 중
+
+    await deleteDoc(doc(db, "articles", articleID));
+
+    return NextResponse.json({articleID});
 
 }
