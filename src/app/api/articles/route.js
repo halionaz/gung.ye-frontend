@@ -4,8 +4,8 @@ import { db } from "../firebase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
 
-export async function GET(request) {
-    // 서버로 부터 데이터 읽어오기
+export async function GET() {
+    // 서버로부터 데이터 읽어오기
 
     const querySnapshot = await getDocs(collection(db, "articles"));
 

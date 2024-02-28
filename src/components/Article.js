@@ -1,5 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import style from "./Article.module.css";
+import { useEffect } from "react";
 
 const Article = ({
     id,
@@ -20,6 +21,15 @@ const Article = ({
         postingDate.seconds,
         postingDate.nanoseconds
     ).toDate();
+
+    useEffect(() => {
+
+        // article 컴포넌트가 업데이트 될 때 
+        // 이 article에 답변된 answer 데이터 가져오기
+
+        fetch("/")
+
+    }, []);
 
     return (
         <div className={style.articleBox}>
