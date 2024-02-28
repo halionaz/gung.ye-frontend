@@ -68,7 +68,6 @@ const Main = () => {
                 <div>로딩중</div>
             ) : (
                 articles.map((article, index) => {
-                    console.log(article);
                     return (
                         <Article
                             key={index}

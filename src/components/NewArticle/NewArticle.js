@@ -8,8 +8,6 @@ const NewArticle = ({ refreshData, setWriting, userEmail }) => {
     const offset = new Date().getTimezoneOffset() * 60000;
     const today = new Date(Date.now() - offset);
 
-    console.log(today.toISOString().substring(0, 10));
-
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [deadline, setDeadline] = useState(
