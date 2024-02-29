@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { collection, getDocs, addDoc, Timestamp, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, Timestamp, doc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -55,11 +55,18 @@ export async function DELETE(request) {
     const reqData = await request.json();
     const articleID = reqData.id;
 
-    const session = getServerSession(authOptions);
-    
-    // 현재 세션의 유저와 서버 게시물의 유저가 일치할 때만 삭제 진행 해야 됨 < 진행 중
+    const session = await getServerSession(authOptions);
 
-    await deleteDoc(doc(db, "articles", articleID));
+    const docRef = doc(db, "articles", articleID)
+    const docSnap = await getDoc(docRef);
+
+    if(docSnap.exists()){
+        // request 게시물이 존재하고,
+        if(docSnap.data().writer === session.user?.email){
+            // 게시물의 작성자와 세션 이메일이 같을 때 삭제 진행
+            await deleteDoc(doc(db, "articles", articleID));
+        }
+    }
 
     return NextResponse.json({articleID});
 
