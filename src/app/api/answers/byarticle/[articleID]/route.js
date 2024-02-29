@@ -1,8 +1,10 @@
+// api/answers/byarticle/[articleID]
+
 import { collection, doc, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../firebase";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { db } from "@/app/api/firebase";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(request, {params}){
     // 게시물 ID를 받아서
