@@ -1,3 +1,5 @@
+// api/articles
+
 import { NextResponse } from "next/server";
 import { collection, getDocs, addDoc, Timestamp, doc, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
