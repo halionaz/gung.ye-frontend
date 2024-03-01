@@ -76,10 +76,11 @@ const Main = () => {
                             imgsrc={article.imgsrc}
                             text={article.text}
                             outdate={article.deadline}
-                            writer = {article.writer}
+                            writer={article.writer}
                             postingDate={article.postingDate}
                             session={session}
                             refreshData={refreshData}
+                            userEmail={session.user?.email}
                         />
                     );
                 })

@@ -12,6 +12,7 @@ const Article = ({
     postingDate,
     session,
     refreshData,
+    userEmail,
 }) => {
     const outdateDate = new Timestamp(
         outdate.seconds,
@@ -26,7 +27,6 @@ const Article = ({
     const [myAnswer, setMyAnswer] = useState(undefined);
 
     useEffect(() => {
-
         // article 컴포넌트가 업데이트 될 때
         // 이 article에 답변된 answer 데이터 가져오기
 
@@ -81,10 +81,34 @@ const Article = ({
                         </div>
                     ) : (
                         <div className={style.btns}>
-                            <div className={[style.btn, style.yes].join(" ")}>
+                            <div
+                                className={[style.btn, style.yes].join(" ")}
+                                onClick={() => {
+                                    fetch(`api/answers`, {
+                                        method: "POST",
+                                        body: JSON.stringify({
+                                            answerVal: "yes",
+                                            article: id,
+                                            respondent: userEmail,
+                                        }),
+                                    });
+                                }}
+                            >
                                 예
                             </div>
-                            <div className={[style.btn, style.no].join(" ")}>
+                            <div
+                                className={[style.btn, style.no].join(" ")}
+                                onClick={() => {
+                                    fetch(`api/answers`, {
+                                        method: "POST",
+                                        body: JSON.stringify({
+                                            answerVal: "no",
+                                            article: id,
+                                            respondent: userEmail,
+                                        }),
+                                    });
+                                }}
+                            >
                                 아니오
                             </div>
                         </div>
