@@ -11,7 +11,6 @@ export async function POST(request){
 
     const reqData = await request.json();
 
-    console.log(reqData);
     const answerVal = reqData.answerVal;
     const article = reqData.article;
 
@@ -26,12 +25,12 @@ export async function POST(request){
                 respondent: session.user?.email,
             });
         } catch (err) {
-            console.error(err);
+            return NextResponse.error("서버에 데이터 추가 중 오류");
         }
 
         return NextResponse.json("Done It");
     } else {
-        return NextResponse.error();
+        return NextResponse.error("세션이 존재하지 않습니다");
     }
 }
 
@@ -54,7 +53,7 @@ export async function DELETE(request) {
             await deleteDoc(doc(db, "answers", answerID));
         }
     } else {
-        return NextResponse.error();
+        return NextResponse.error("해당 ID의 답변이 존재하지 않습니다");
     }
 
     return NextResponse.json({ answerID });

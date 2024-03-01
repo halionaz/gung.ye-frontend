@@ -42,11 +42,11 @@ export async function POST(request) {
                 imgsrc,
             });
         } catch (err) {
-            console.error(err);
+            return NextResponse.err("서버에 데이터가 업로드 되지 않음");
         }
         return NextResponse.json({ title, text, writer, deadline });
     } else {
-        return NextResponse.error();
+        return NextResponse.error("세션이 존재하지 않습니다");
     }
 }
 
@@ -68,7 +68,7 @@ export async function DELETE(request) {
             await deleteDoc(doc(db, "articles", articleID));
         }
     } else {
-        return NextResponse.error();
+        return NextResponse.error("해당 ID의 게시글이 존재하지 않습니다");
     }
 
     return NextResponse.json({articleID});
