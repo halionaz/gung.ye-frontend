@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import style from "./Article.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Article = ({
     id,
@@ -22,13 +22,21 @@ const Article = ({
         postingDate.nanoseconds
     ).toDate();
 
+    const [answerData, setAnswerData] = useState({});
+    const [myAnswer, setMyAnswer] = useState(undefined);
+
     useEffect(() => {
-
-        // article 컴포넌트가 업데이트 될 때 
+        // article 컴포넌트가 업데이트 될 때
         // 이 article에 답변된 answer 데이터 가져오기
-
-        fetch("/")
-
+        console.log(id);
+        fetch(`/api/answers/byarticle/${id}`, {
+            cache: "no-store",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setAnswerData(data.data)
+                setMyAnswer(data.yourResponse)
+            });
     }, []);
 
     return (
@@ -51,14 +59,14 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.btm}>
-                    <div className={style.btns}>
+                    {!myAnswer && <div className={style.btns}>
                         <div className={[style.btn, style.yes].join(" ")}>
                             예
                         </div>
                         <div className={[style.btn, style.no].join(" ")}>
                             아니오
                         </div>
-                    </div>
+                    </div>}
                     {session?.user.email === writer && (
                         <div
                             className={style.deleteBtn}
