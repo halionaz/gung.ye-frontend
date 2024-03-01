@@ -26,16 +26,17 @@ const Article = ({
     const [myAnswer, setMyAnswer] = useState(undefined);
 
     useEffect(() => {
+
         // article 컴포넌트가 업데이트 될 때
         // 이 article에 답변된 answer 데이터 가져오기
-        console.log(id);
+
         fetch(`/api/answers/byarticle/${id}`, {
             cache: "no-store",
         })
             .then((res) => res.json())
             .then((data) => {
-                setAnswerData(data.data)
-                setMyAnswer(data.yourResponse)
+                setAnswerData(data.data);
+                setMyAnswer(data.yourResponse);
             });
     }, []);
 
@@ -59,14 +60,35 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.btm}>
-                    {!myAnswer && <div className={style.btns}>
-                        <div className={[style.btn, style.yes].join(" ")}>
-                            예
+                    {myAnswer ? (
+                        <div>
+                            답변 완료{" "}
+                            <button
+                                onClick={() => {
+                                    // 내 답변을 삭제하는 메소드
+                                    fetch(`api/answers/${myAnswer}`, {
+                                        method: "DELETE",
+                                        body: JSON.stringify({
+                                            id: myAnswer,
+                                        }),
+                                    }).then((res) => {
+                                        refreshData();
+                                    });
+                                }}
+                            >
+                                답변 삭제
+                            </button>
                         </div>
-                        <div className={[style.btn, style.no].join(" ")}>
-                            아니오
+                    ) : (
+                        <div className={style.btns}>
+                            <div className={[style.btn, style.yes].join(" ")}>
+                                예
+                            </div>
+                            <div className={[style.btn, style.no].join(" ")}>
+                                아니오
+                            </div>
                         </div>
-                    </div>}
+                    )}
                     {session?.user.email === writer && (
                         <div
                             className={style.deleteBtn}
