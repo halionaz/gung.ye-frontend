@@ -25,11 +25,10 @@ export async function POST(request) {
     const reqData = await request.json();
     const title = reqData.title;
     const text = reqData.text;
-    const writer = reqData.uid;
     const deadline = reqData.deadline;
     const imgsrc = reqData.imgsrc;
 
-    const session = getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
 
     if (session) {
         // 사용자가 정상적으로 로그인 했을 때만 DB에 등록
@@ -37,7 +36,7 @@ export async function POST(request) {
             const docRef = await addDoc(collection(db, "articles"), {
                 title,
                 text,
-                writer,
+                writer : session.user?.email,
                 deadline: Timestamp.fromDate(new Date(deadline)),
                 postingDate: Timestamp.fromDate(new Date()),
                 imgsrc,
@@ -68,6 +67,8 @@ export async function DELETE(request) {
             // 게시물의 작성자와 세션 이메일이 같을 때 삭제 진행
             await deleteDoc(doc(db, "articles", articleID));
         }
+    } else {
+        return NextResponse.error();
     }
 
     return NextResponse.json({articleID});

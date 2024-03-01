@@ -11,8 +11,6 @@ const Article = ({
     writer,
     postingDate,
     session,
-    refreshData,
-    userEmail,
 }) => {
     const outdateDate = new Timestamp(
         outdate.seconds,
@@ -26,10 +24,7 @@ const Article = ({
     const [answerData, setAnswerData] = useState({});
     const [myAnswer, setMyAnswer] = useState(undefined);
 
-    useEffect(() => {
-        // article 컴포넌트가 업데이트 될 때
-        // 이 article에 답변된 answer 데이터 가져오기
-
+    const refreshData = () => {
         fetch(`/api/answers/byarticle/${id}`, {
             cache: "no-store",
         })
@@ -38,6 +33,12 @@ const Article = ({
                 setAnswerData(data.data);
                 setMyAnswer(data.yourResponse);
             });
+    };
+
+    useEffect(() => {
+        // article 컴포넌트가 업데이트 될 때
+        // 이 article에 답변된 answer 데이터 가져오기
+        refreshData();
     }, []);
 
     return (
@@ -66,7 +67,7 @@ const Article = ({
                             <button
                                 onClick={() => {
                                     // 내 답변을 삭제하는 메소드
-                                    fetch(`api/answers/${myAnswer}`, {
+                                    fetch(`api/answers`, {
                                         method: "DELETE",
                                         body: JSON.stringify({
                                             id: myAnswer,
@@ -89,8 +90,9 @@ const Article = ({
                                         body: JSON.stringify({
                                             answerVal: "yes",
                                             article: id,
-                                            respondent: userEmail,
                                         }),
+                                    }).then(() => {
+                                        refreshData();
                                     });
                                 }}
                             >
@@ -104,8 +106,9 @@ const Article = ({
                                         body: JSON.stringify({
                                             answerVal: "no",
                                             article: id,
-                                            respondent: userEmail,
                                         }),
+                                    }).then(() => {
+                                        refreshData();
                                     });
                                 }}
                             >

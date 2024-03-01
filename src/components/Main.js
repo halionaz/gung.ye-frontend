@@ -61,7 +61,6 @@ const Main = () => {
                 <NewArticle
                     refreshData={refreshData}
                     setWriting={setWriting}
-                    userEmail={session.user?.email}
                 />
             )}
             {loading ? (
@@ -80,7 +79,6 @@ const Main = () => {
                             postingDate={article.postingDate}
                             session={session}
                             refreshData={refreshData}
-                            userEmail={session.user?.email}
                         />
                     );
                 })

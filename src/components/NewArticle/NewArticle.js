@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "./NewArticle.module.css";
 
-const NewArticle = ({ refreshData, setWriting, userEmail }) => {
+const NewArticle = ({ refreshData, setWriting }) => {
 
     // 그냥 new Date()로 객체를 만든 뒤 ISOString으로 바꾸면 영국 시간이 나와버림
     // 시차 조정
@@ -66,7 +66,6 @@ const NewArticle = ({ refreshData, setWriting, userEmail }) => {
                         body: JSON.stringify({
                             title: title,
                             text: text,
-                            uid: userEmail,
                             deadline: deadline,
                             imgsrc,
                         }),
