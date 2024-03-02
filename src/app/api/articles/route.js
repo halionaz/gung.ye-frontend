@@ -1,7 +1,17 @@
 // api/articles
 
 import { NextResponse } from "next/server";
-import { collection, getDocs, addDoc, Timestamp, doc, deleteDoc, getDoc } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    Timestamp,
+    doc,
+    deleteDoc,
+    getDoc,
+    query,
+    orderBy,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -9,7 +19,9 @@ import { authOptions } from "../auth/[...nextauth]/route";
 export async function GET() {
     // 서버로부터 데이터 읽어오기
 
-    const querySnapshot = await getDocs(collection(db, "articles"));
+    const articleRef = collection(db, "articles");
+    const q = query(articleRef, orderBy("deadline"), orderBy("postingDate"));
+    const querySnapshot = await getDocs(q);
 
     const data = [];
     querySnapshot.forEach((doc) => {
@@ -36,7 +48,7 @@ export async function POST(request) {
             const docRef = await addDoc(collection(db, "articles"), {
                 title,
                 text,
-                writer : session.user?.email,
+                writer: session.user?.email,
                 deadline: Timestamp.fromDate(new Date(deadline)),
                 postingDate: Timestamp.fromDate(new Date()),
                 imgsrc,
@@ -58,12 +70,12 @@ export async function DELETE(request) {
 
     const session = await getServerSession(authOptions);
 
-    const docRef = doc(db, "articles", articleID)
+    const docRef = doc(db, "articles", articleID);
     const docSnap = await getDoc(docRef);
 
-    if(docSnap.exists()){
+    if (docSnap.exists()) {
         // request 게시물이 존재하고,
-        if(docSnap.data().writer === session.user?.email){
+        if (docSnap.data().writer === session.user?.email) {
             // 게시물의 작성자와 세션 이메일이 같을 때 삭제 진행
             await deleteDoc(doc(db, "articles", articleID));
         }
@@ -71,6 +83,5 @@ export async function DELETE(request) {
         return NextResponse.error("해당 ID의 게시글이 존재하지 않습니다");
     }
 
-    return NextResponse.json({articleID});
-
+    return NextResponse.json({ articleID });
 }
