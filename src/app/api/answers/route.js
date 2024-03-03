@@ -71,7 +71,9 @@ export async function DELETE(request) {
             await deleteDoc(doc(db, "answers", answerID));
         }
     } else {
-        return NextResponse.error("해당 ID의 답변이 존재하지 않습니다");
+        return NextResponse.json("해당 ID의 답변이 존재하지 않습니다", {
+            status: 404,
+        });
     }
 
     return NextResponse.json({ answerID });

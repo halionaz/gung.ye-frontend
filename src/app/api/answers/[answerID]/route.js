@@ -17,6 +17,6 @@ export async function GET(request, { params }) {
     if (answerSnapshot.exists()) {
         return NextResponse.json(answerSnapshot.data());
     } else {
-        return NextResponse.error({ message: "NO DATA" });
+        return NextResponse.json("NO DATA", { status: 404 });
     }
 }
