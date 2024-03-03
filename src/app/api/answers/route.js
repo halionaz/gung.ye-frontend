@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { db } from "../firebase";
 import { authOptions } from "../auth/[...nextauth]/route";
 
-export async function POST(request){
+export async function POST(request) {
     // request로부터 받은 데이터 서버에 추가
 
     const reqData = await request.json();
@@ -16,21 +16,39 @@ export async function POST(request){
 
     const session = await getServerSession(authOptions);
 
-    if(session){
-        // 사용자가 정상적으로 로그인 했을 때 DB 등록
-        try {
-            const docRef = await addDoc(collection(db, "answers"), {
-                answerVal,
-                article,
-                respondent: session.user?.email,
+    if (session) {
+        // 사용자가 정상적으로 로그인 했을 때
+        const sessionName = session.user?.email;
+        const articleRef = doc(db, "articles", article);
+        const articleSnapshot = await getDoc(articleRef);
+        if (articleSnapshot.exists()) {
+            // 아티클이 존재할 때
+            if (sessionName !== articleSnapshot.data().writer) {
+                // 아티클의 작성자와 답변자가 다를 때 DB 등록
+                try {
+                    const docRef = await addDoc(collection(db, "answers"), {
+                        answerVal,
+                        article,
+                        respondent: sessionName,
+                    });
+                } catch (err) {
+                    return NextResponse.json("서버에 데이터 추가 중 오류", {
+                        status: 500,
+                    });
+                }
+                return NextResponse.json("Done It");
+            } else {
+                return NextResponse.json("403 오류", {
+                    status: 403,
+                });
+            }
+        } else {
+            return NextResponse.json("아티클이 존재하지 않습니다", {
+                status: 404,
             });
-        } catch (err) {
-            return NextResponse.error("서버에 데이터 추가 중 오류");
         }
-
-        return NextResponse.json("Done It");
     } else {
-        return NextResponse.error("세션이 존재하지 않습니다");
+        return NextResponse.json("세션이 존재하지 않습니다", { status: 401 });
     }
 }
 
