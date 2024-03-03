@@ -61,7 +61,11 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.btm}>
-                    {myAnswer ? (
+                    {session?.user.email === writer ? (
+                        // 본인이 작성한 아티클인 경우
+                        <div>내가 작성한 게시글</div>
+                    ) : myAnswer ? (
+                        // 남이 작성했고, 답변이 완료된 아티클인 경우
                         <div>
                             답변 완료{" "}
                             <button
@@ -81,6 +85,7 @@ const Article = ({
                             </button>
                         </div>
                     ) : (
+                        // 남이 작성했고, 미답변한 아티클인 경우
                         <div className={style.btns}>
                             <div
                                 className={[style.btn, style.yes].join(" ")}
@@ -116,6 +121,7 @@ const Article = ({
                             </div>
                         </div>
                     )}
+
                     {session?.user.email === writer && (
                         <div
                             className={style.deleteBtn}
