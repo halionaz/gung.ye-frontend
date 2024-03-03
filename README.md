@@ -4,7 +4,7 @@
 
 ## API
 
-### Aritcles
+### Articles
 
 #### /api/articles
 - GET - 모든 게시물을 반환
