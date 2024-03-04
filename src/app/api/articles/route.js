@@ -58,7 +58,7 @@ export async function POST(request) {
                 status: 500,
             });
         }
-        return NextResponse.json({ title, text, writer, deadline });
+        return NextResponse.json("정상적으로 업로드 완료");
     } else {
         return NextResponse.json("세션이 존재하지 않습니다", { status: 401 });
     }

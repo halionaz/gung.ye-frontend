@@ -11,6 +11,7 @@ const Article = ({
     writer,
     postingDate,
     session,
+    refreshData
 }) => {
     const outdateDate = new Timestamp(
         outdate.seconds,
@@ -24,7 +25,7 @@ const Article = ({
     const [answerData, setAnswerData] = useState({});
     const [myAnswer, setMyAnswer] = useState(undefined);
 
-    const refreshData = () => {
+    const refreshArticleData = () => {
         fetch(`/api/answers/byarticle/${id}`, {
             cache: "no-store",
         })
@@ -38,7 +39,7 @@ const Article = ({
     useEffect(() => {
         // article 컴포넌트가 업데이트 될 때
         // 이 article에 답변된 answer 데이터 가져오기
-        refreshData();
+        refreshArticleData();
     }, []);
 
     return (
@@ -77,7 +78,7 @@ const Article = ({
                                             id: myAnswer,
                                         }),
                                     }).then((res) => {
-                                        refreshData();
+                                        refreshArticleData();
                                     });
                                 }}
                             >
@@ -97,7 +98,7 @@ const Article = ({
                                             article: id,
                                         }),
                                     }).then(() => {
-                                        refreshData();
+                                        refreshArticleData();
                                     });
                                 }}
                             >
@@ -113,7 +114,7 @@ const Article = ({
                                             article: id,
                                         }),
                                     }).then(() => {
-                                        refreshData();
+                                        refreshArticleData();
                                     });
                                 }}
                             >
@@ -131,7 +132,7 @@ const Article = ({
                                     body: JSON.stringify({
                                         id,
                                     }),
-                                }).then((res) => {
+                                }).then(() => {
                                     refreshData();
                                 });
                             }}
