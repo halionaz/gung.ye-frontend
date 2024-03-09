@@ -38,6 +38,7 @@ export async function POST(request) {
     const title = reqData.title;
     const text = reqData.text;
     const deadline = reqData.deadline;
+    const openDate = reqData.openDate;
     const imgsrc = reqData.imgsrc;
 
     const session = await getServerSession(authOptions);
@@ -50,6 +51,7 @@ export async function POST(request) {
                 text,
                 writer: session.user?.email,
                 deadline: Timestamp.fromDate(new Date(deadline)),
+                openDate: Timestamp.fromDate(new Date(openDate)),
                 postingDate: Timestamp.fromDate(new Date()),
                 imgsrc,
             });

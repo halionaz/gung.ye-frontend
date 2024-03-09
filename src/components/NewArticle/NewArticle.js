@@ -11,7 +11,10 @@ const NewArticle = ({ refreshData, setWriting }) => {
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [deadline, setDeadline] = useState(
-        today.toISOString().substring(0, 10)
+        today.toISOString().substring(0, 16)
+    );
+    const [openDate, setOpenDate] = useState(
+        today.toISOString().substring(0, 16)
     );
     const [imgsrc, setImgsrc] = useState("");
 
@@ -41,10 +44,19 @@ const NewArticle = ({ refreshData, setWriting }) => {
             <input
                 name="deadline"
                 className={style.deadline}
-                type="date"
+                type="datetime-local"
                 value={deadline}
                 onChange={(event) => {
                     setDeadline(event.target.value);
+                }}
+            />
+            <input
+                name="openDate"
+                className={style.openDate}
+                type="datetime-local"
+                value={openDate}
+                onChange={(event) => {
+                    setOpenDate(event.target.value);
                 }}
             />
             <input
@@ -67,6 +79,7 @@ const NewArticle = ({ refreshData, setWriting }) => {
                             title: title,
                             text: text,
                             deadline: deadline,
+                            openDate,
                             imgsrc,
                         }),
                     }).then((res) => {
