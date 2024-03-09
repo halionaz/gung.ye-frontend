@@ -1,16 +1,26 @@
 .article {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+
+    width: 40%;
+
+    border: solid black 1px;
+    border-radius: 0.5rem;
+
+    padding: 1rem;
+
 }
 
 .topProfile {
     display: flex;
     flex-direction: row;
+    gap: 0.5rem;
 }
 
 .profileImg {
-    height: 2rem;
-    width: 2rem;
+    height: 2.5rem;
+    width: 2.5rem;
 
     border-radius: 1rem;
 }
@@ -23,11 +33,19 @@
 .upperProfile {
     display: flex;
     flex-direction: row;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.postingDate{
+    font-size: 0.75rem;
+    color: var(--GY-gray);
 }
 
 .lowerProfile {
     display: flex;
     flex-direction: row;
+    gap: 0.25rem;
 }
 
 .main {
@@ -39,10 +57,12 @@
 .contents {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 }
 
 .title {
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .detailContents {
@@ -57,23 +77,54 @@
     object-fit: cover;
 }
 
-.poll{
-    display: flex;
-    flex-direction: row;
+.text{
+    line-height: 1.5rem;
 }
 
-.leftPoll{
-    display: flex;
-    flex-direction: column;
-}
-
-.additionalInfo{
+.poll {
     display: flex;
     flex-direction: row;
     gap: 1rem;
 }
 
-.popularity{
+.leftPoll {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.yesBtn, .noBtn {
+    border: 2px solid;
+    border-radius: 0.25rem;
+    text-align: center;
+
+    cursor: pointer;
+    font-weight: 600;
+
+    padding: 0.25rem;
+}
+
+.yesBtn {
+    color: var(--GY-green);
+    border-color: var(--GY-green);
+}
+
+.noBtn {
+    color: var(--GY-red);
+    border-color: var(--GY-red);
+}
+
+.rightPoll{
+    flex : 1 1 0;
+}
+
+.additionalInfo {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.popularity {
     display: flex;
     flex-direction: row;
     gap: 1rem;

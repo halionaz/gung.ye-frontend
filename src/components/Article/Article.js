@@ -65,7 +65,7 @@ const Article = ({
                     <div className={style.upperProfile}>
                         <div className={style.nickname}>{writer}</div>
                         <div className={style.postingDate}>
-                            {postingDateDate.toLocaleDateString()}
+                            {`• ${postingDateDate.toLocaleDateString()}`}
                         </div>
                     </div>
                     <div className={style.lowerProfile}>
@@ -103,16 +103,16 @@ const Article = ({
                 </div>
                 <div className={style.additionalInfo}>
                     <div className={style.deadline}>
-                        {outdateDate.toLocaleDateString()}
+                        {`${outdateDate.toLocaleDateString()}까지`}
                     </div>
                     {/* 마감 일시를 누르거나 hover 할 시 공개 일시가 표시됨 */}
                     <div className={style.openDate}>
-                        {openDateDate.toLocaleDateString()}
+                        {`${openDateDate.toLocaleDateString()}에 답 공개`}
                     </div>
                 </div>
             </div>
             <div className={style.popularity}>
-                <div className={style.participants}>70명</div>
+                <div className={style.participants}>70</div>
                 <div className={style.likes}>30</div>
                 <div className={style.comments}>7</div>
             </div>

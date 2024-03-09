@@ -60,27 +60,29 @@ const Main = () => {
             {writing && (
                 <NewArticle refreshData={refreshData} setWriting={setWriting} />
             )}
-            {loading ? (
-                <div>로딩중</div>
-            ) : (
-                articles.map((article, index) => {
-                    return (
-                        <Article
-                            key={index}
-                            id={article.id}
-                            title={article.title}
-                            imgsrc={article.imgsrc}
-                            text={article.text}
-                            outdate={article.deadline}
-                            writer={article.writer}
-                            postingDate={article.postingDate}
-                            openDate={article.openDate}
-                            session={session}
-                            refreshData={refreshData}
-                        />
-                    );
-                })
-            )}
+            <div className={style.articles}>
+                {loading ? (
+                    <div>로딩중</div>
+                ) : (
+                    articles.map((article, index) => {
+                        return (
+                            <Article
+                                key={index}
+                                id={article.id}
+                                title={article.title}
+                                imgsrc={article.imgsrc}
+                                text={article.text}
+                                outdate={article.deadline}
+                                writer={article.writer}
+                                postingDate={article.postingDate}
+                                openDate={article.openDate}
+                                session={session}
+                                refreshData={refreshData}
+                            />
+                        );
+                    })
+                )}
+            </div>
         </main>
     );
 };
