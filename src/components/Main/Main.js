@@ -53,7 +53,7 @@ const Main = () => {
                             });
                         }}
                     >
-                        {writing ? "취소" : "새 글 추가"}
+                        {writing ? "취소" : "신탁 올리기"}
                     </button>
                 )}
             </div>
