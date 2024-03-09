@@ -94,16 +94,22 @@ const Article = ({
                     답변이 완료된 경우,
                     답변을 안 한 경우로 세가지 나눠 작성 */}
                     <div className={style.leftPoll}>
-                        <div className={style.yesBtn}>YES</div>
-                        <div className={style.noBtn}>NO</div>
+                        <div className={style.answerBtn}>
+                            <img className={style.answerIcon} src="/yes.svg" />
+                            <div className={style.yesBtn}>YES</div>
+                        </div>
+                        <div className={style.answerBtn}>
+                            <img className={style.answerIcon} src="/no.svg" />
+                            <div className={style.noBtn}>NO</div>
+                        </div>
                     </div>
                     <div className={style.rightPoll}>
-                        <div className={style.totalStake}>760</div>
+                        <div className={style.totalStake}>760포인트</div>
                     </div>
                 </div>
                 <div className={style.additionalInfo}>
                     <div className={style.deadline}>
-                        {`${outdateDate.toLocaleDateString()}까지`}
+                        {`${outdateDate.toLocaleDateString()}에 마감`}
                     </div>
                     {/* 마감 일시를 누르거나 hover 할 시 공개 일시가 표시됨 */}
                     <div className={style.openDate}>
@@ -112,9 +118,18 @@ const Article = ({
                 </div>
             </div>
             <div className={style.popularity}>
-                <div className={style.participants}>70</div>
-                <div className={style.likes}>30</div>
-                <div className={style.comments}>7</div>
+                <div className={style.participants}>
+                    <div className={style.popularityTitle}>참여자</div>
+                    <div className={style.popularityNum}>75</div>
+                </div>
+                <div className={style.likes}>
+                    <div className={style.popularityTitle}>좋아요</div>
+                    <div className={style.popularityNum}>30</div>
+                </div>
+                <div className={style.comments}>
+                    <div className={style.popularityTitle}>댓글</div>
+                    <div className={style.popularityNum}>7</div>
+                </div>
             </div>
         </div>
     );

@@ -28,6 +28,7 @@
 .profile {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
 }
 
 .upperProfile {
@@ -93,12 +94,23 @@
     gap: 0.5rem;
 }
 
+.answerBtn{
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    align-items: center;
+    cursor: pointer;
+}
+.answerIcon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 .yesBtn, .noBtn {
     border: 2px solid;
     border-radius: 0.25rem;
     text-align: center;
 
-    cursor: pointer;
     font-weight: 600;
 
     padding: 0.25rem;
@@ -116,12 +128,29 @@
 
 .rightPoll{
     flex : 1 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.totalStake{
+    font-weight: 600;
+    font-size: 1.5rem;
 }
 
 .additionalInfo {
     display: flex;
     flex-direction: row;
+    /* justify-content: space-between; */
+    align-items: center;
     gap: 1rem;
+}
+.deadline{
+    color: var(--GY-gray);
+}
+.openDate{
+    font-size: 0.75rem;
+    color: var(--GY-gray);
+
 }
 
 .popularity {
