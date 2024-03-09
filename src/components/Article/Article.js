@@ -11,8 +11,9 @@ const Article = ({
     writer,
     postingDate,
     session,
-    refreshData
+    refreshData,
 }) => {
+    
     const outdateDate = new Timestamp(
         outdate.seconds,
         outdate.nanoseconds
