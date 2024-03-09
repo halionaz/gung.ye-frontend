@@ -24,7 +24,10 @@ const Article = ({
         postingDate.seconds,
         postingDate.nanoseconds
     ).toDate();
-    const openDateDate = new Timestamp(openDate.seconds, openDate.nanoseconds).toDate();
+    const openDateDate = new Timestamp(
+        openDate.seconds,
+        openDate.nanoseconds
+    ).toDate();
 
     const [answerData, setAnswerData] = useState({});
     const [myAnswer, setMyAnswer] = useState(undefined);
@@ -53,7 +56,10 @@ const Article = ({
         <div className={style.article}>
             <div className={style.topProfile}>
                 <div className={style.profileImgBox}>
-                    <img className={style.profileImg}></img>
+                    <img
+                        className={style.profileImg}
+                        src="https://avatars.githubusercontent.com/u/58812281?v=4"
+                    ></img>
                 </div>
                 <div className={style.profile}>
                     <div className={style.upperProfile}>
@@ -72,12 +78,14 @@ const Article = ({
                 <div className={style.contents}>
                     <div className={style.title}>{title}</div>
                     <div className={style.detailContents}>
-                        <div className={style.imgBox}>
-                            <img
-                                className={style.articleImg}
-                                src={imgsrc}
-                            ></img>
-                        </div>
+                        {imgsrc && (
+                            <div className={style.imgBox}>
+                                <img
+                                    className={style.articleImg}
+                                    src={imgsrc}
+                                ></img>
+                            </div>
+                        )}
                         <div className={style.text}>{text}</div>
                     </div>
                 </div>
@@ -97,15 +105,16 @@ const Article = ({
                     <div className={style.deadline}>
                         {outdateDate.toLocaleDateString()}
                     </div>
-                    {/* <div className={style.openDate}>
+                    {/* 마감 일시를 누르거나 hover 할 시 공개 일시가 표시됨 */}
+                    <div className={style.openDate}>
                         {openDateDate.toLocaleDateString()}
-                    </div> */}
+                    </div>
                 </div>
-                <div className={style.popularity}>
-                    <div className={style.participants}>70명</div>
-                    <div className={style.likes}>30</div>
-                    <div className={style.comments}>7</div>
-                </div>
+            </div>
+            <div className={style.popularity}>
+                <div className={style.participants}>70명</div>
+                <div className={style.likes}>30</div>
+                <div className={style.comments}>7</div>
             </div>
         </div>
     );
