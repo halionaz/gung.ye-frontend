@@ -58,10 +58,7 @@ const Main = () => {
                 )}
             </div>
             {writing && (
-                <NewArticle
-                    refreshData={refreshData}
-                    setWriting={setWriting}
-                />
+                <NewArticle refreshData={refreshData} setWriting={setWriting} />
             )}
             {loading ? (
                 <div>로딩중</div>
@@ -77,6 +74,7 @@ const Main = () => {
                             outdate={article.deadline}
                             writer={article.writer}
                             postingDate={article.postingDate}
+                            openDate={article.openDate}
                             session={session}
                             refreshData={refreshData}
                         />
