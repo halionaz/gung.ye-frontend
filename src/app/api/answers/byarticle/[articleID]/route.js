@@ -22,18 +22,30 @@ export async function GET(request, { params }) {
     const data = {};
     let yourResponse = undefined;
 
-    querySnapshot.forEach((doc) => {
-        const answer = doc.data();
-        if (data[answer.answerVal]) {
-            data[answer.answerVal]++;
-        } else {
-            data[answer.answerVal] = 1;
-        }
-        if (answer.respondent === session.user?.email) {
-            // 현재 세션의 답변
-            yourResponse = doc.id;
-        }
-    });
+    if(session){
+        querySnapshot.forEach((doc) => {
+            const answer = doc.data();
+            if (data[answer.answerVal]) {
+                data[answer.answerVal]++;
+            } else {
+                data[answer.answerVal] = 1;
+            }
+            if (answer.respondent === session.user?.email) {
+                // 현재 세션의 답변
+                yourResponse = doc.id;
+            }
+        });
+    } else {
+        querySnapshot.forEach((doc) => {
+            const answer = doc.data();
+            if (data[answer.answerVal]) {
+                data[answer.answerVal]++;
+            } else {
+                data[answer.answerVal] = 1;
+            }
+        });
+    }
+
 
     return NextResponse.json({ data, yourResponse });
 }
