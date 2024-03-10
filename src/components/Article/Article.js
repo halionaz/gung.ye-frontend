@@ -157,17 +157,22 @@ const Article = ({
                 </div>
             </div>
             <div className={style.popularity}>
-                <div className={style.participants}>
-                    <div className={style.popularityTitle}>참여자</div>
-                    <div className={style.popularityNum}>75</div>
+                <div className={style.leftPop}>
+                    <div className={style.participants}>
+                        <div className={style.popularityTitle}>참여자</div>
+                        <div className={style.popularityNum}>75</div>
+                    </div>
+                    <div className={style.likes}>
+                        <div className={style.popularityTitle}>좋아요</div>
+                        <div className={style.popularityNum}>30</div>
+                    </div>
+                    <div className={style.comments}>
+                        <div className={style.popularityTitle}>댓글</div>
+                        <div className={style.popularityNum}>7</div>
+                    </div>
                 </div>
-                <div className={style.likes}>
-                    <div className={style.popularityTitle}>좋아요</div>
-                    <div className={style.popularityNum}>30</div>
-                </div>
-                <div className={style.comments}>
-                    <div className={style.popularityTitle}>댓글</div>
-                    <div className={style.popularityNum}>7</div>
+                <div className={style.rightPop}>
+                    <div className={style.more}>...</div>
                 </div>
             </div>
         </div>
