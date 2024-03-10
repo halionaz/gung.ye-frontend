@@ -90,19 +90,58 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.poll}>
-                    {/* 얘는 본인이 작성자인 경우,
-                    답변이 완료된 경우,
-                    답변을 안 한 경우로 세가지 나눠 작성 */}
-                    <div className={style.leftPoll}>
-                        <div className={style.answerBtn}>
-                            <img className={style.answerIcon} src="/yes.svg" />
-                            <div className={style.yesBtn}>YES</div>
-                        </div>
-                        <div className={style.answerBtn}>
-                            <img className={style.answerIcon} src="/no.svg" />
-                            <div className={style.noBtn}>NO</div>
-                        </div>
-                    </div>
+                    {session?.user.email !== writer &&
+                        // 다른 사람의 신탁인 경우
+                        (myAnswer ? (
+                            // 답변을 남긴 경우
+                            <div className={style.stat}>
+                                다른 사람들 통계 표시
+                            </div>
+                        ) : (
+                            // 답변을 남기지 않은 경우
+                            <div className={style.leftPoll}>
+                                <div
+                                    className={style.answerBtn}
+                                    onClick={() => {
+                                        fetch(`api/answers`, {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                answerVal: "yes",
+                                                article: id,
+                                            }),
+                                        }).then(() => {
+                                            refreshArticleData();
+                                        });
+                                    }}
+                                >
+                                    <img
+                                        className={style.answerIcon}
+                                        src="/yes.svg"
+                                    />
+                                    <div className={style.yesBtn}>YES</div>
+                                </div>
+                                <div
+                                    className={style.answerBtn}
+                                    onClick={() => {
+                                        fetch(`api/answers`, {
+                                            method: "POST",
+                                            body: JSON.stringify({
+                                                answerVal: "no",
+                                                article: id,
+                                            }),
+                                        }).then(() => {
+                                            refreshArticleData();
+                                        });
+                                    }}
+                                >
+                                    <img
+                                        className={style.answerIcon}
+                                        src="/no.svg"
+                                    />
+                                    <div className={style.noBtn}>NO</div>
+                                </div>
+                            </div>
+                        ))}
                     <div className={style.rightPoll}>
                         <div className={style.totalStake}>760포인트</div>
                     </div>
@@ -134,10 +173,6 @@ const Article = ({
         </div>
     );
 
-    // <div className={style.btm}>
-    //     {session?.user.email === writer ? (
-    //         // 본인이 작성한 아티클인 경우
-    //         <div>내가 작성한 게시글</div>
     //     ) : myAnswer ? (
     //         // 남이 작성했고, 답변이 완료된 아티클인 경우
     //         <div>
@@ -160,40 +195,6 @@ const Article = ({
     //         </div>
     //     ) : (
     //         // 남이 작성했고, 미답변한 아티클인 경우
-    //         <div className={style.btns}>
-    //             <div
-    //                 className={[style.btn, style.yes].join(" ")}
-    //                 onClick={() => {
-    //                     fetch(`api/answers`, {
-    //                         method: "POST",
-    //                         body: JSON.stringify({
-    //                             answerVal: "yes",
-    //                             article: id,
-    //                         }),
-    //                     }).then(() => {
-    //                         refreshArticleData();
-    //                     });
-    //                 }}
-    //             >
-    //                 예
-    //             </div>
-    //             <div
-    //                 className={[style.btn, style.no].join(" ")}
-    //                 onClick={() => {
-    //                     fetch(`api/answers`, {
-    //                         method: "POST",
-    //                         body: JSON.stringify({
-    //                             answerVal: "no",
-    //                             article: id,
-    //                         }),
-    //                     }).then(() => {
-    //                         refreshArticleData();
-    //                     });
-    //                 }}
-    //             >
-    //                 아니오
-    //             </div>
-    //         </div>
     //     )}
 
     //     {session?.user.email === writer && (
