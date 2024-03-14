@@ -54,38 +54,39 @@ const Article = ({
 
     return (
         <div className={style.article}>
-            <div className={style.topProfile}>
-                <div className={style.profileImgBox}>
-                    <img
-                        className={style.profileImg}
-                        src="https://avatars.githubusercontent.com/u/58812281?v=4"
-                    ></img>
-                </div>
-                <div className={style.profile}>
-                    <div className={style.upperProfile}>
-                        <div className={style.nickname}>{writer}</div>
-                        <div className={style.postingDate}>
-                            {`• ${postingDateDate.toLocaleDateString()}`}
-                        </div>
+            <div className={style.top}>
+                {imgsrc && (
+                    <div className={style.imgBox}>
+                        <img className={style.articleImg} src={imgsrc}></img>
                     </div>
-                    <div className={style.lowerProfile}>
-                        <div className={style.gungyePoint}>368</div>
-                        <div className={style.profileBadge}>멋진거</div>
+                )}
+                <div className={style.contentOutline}>
+                    <div className={style.title}>{title}</div>
+                    <div className={style.postingDate}>
+                        {postingDateDate.toLocaleDateString()}
+                    </div>
+                    <div className={style.topProfile}>
+                        <div className={style.profileImgBox}>
+                            <img
+                                className={style.profileImg}
+                                src="https://avatars.githubusercontent.com/u/58812281?v=4"
+                            ></img>
+                        </div>
+                        <div className={style.profile}>
+                            <div className={style.upperProfile}>
+                                <div className={style.nickname}>{writer}</div>
+                            </div>
+                            <div className={style.lowerProfile}>
+                                <div className={style.gungyePoint}>368</div>
+                                <div className={style.profileBadge}>멋진거</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div className={style.main}>
                 <div className={style.contents}>
-                    <div className={style.title}>{title}</div>
                     <div className={style.detailContents}>
-                        {imgsrc && (
-                            <div className={style.imgBox}>
-                                <img
-                                    className={style.articleImg}
-                                    src={imgsrc}
-                                ></img>
-                            </div>
-                        )}
                         <div className={style.text}>{text}</div>
                     </div>
                 </div>
