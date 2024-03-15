@@ -33,57 +33,68 @@ const Main = () => {
     }, []);
 
     return (
-        <main className={style.main}>
-            {session && (
-                <div className={style.userInfo}>
-                    <img
-                        className={style.userImg}
-                        src={session.user?.image}
-                    ></img>
-                    <div>{session.user?.name}</div>
+        <div className={style.ttl}>
+            <top className={style.top}>
+                <div className={style.logo}>
+                    <img className={style.logoimg} src="/logo.svg"></img>
+                    <div className={style.logoTxt}>gung<span className={style.logobold}>:ye</span></div>
                 </div>
-            )}
-            <Login session={session} />
-            <div>
+            </top>
+            <main className={style.main}>
                 {session && (
-                    <button
-                        onClick={() => {
-                            setWriting((prev) => {
-                                return !prev;
-                            });
-                        }}
-                    >
-                        {writing ? "취소" : "신탁 올리기"}
-                    </button>
+                    <div className={style.userInfo}>
+                        <img
+                            className={style.userImg}
+                            src={session.user?.image}
+                        ></img>
+                        <div>{session.user?.name}</div>
+                    </div>
                 )}
-            </div>
-            {writing && (
-                <NewArticle refreshData={refreshData} setWriting={setWriting} />
-            )}
-            <div className={style.articles}>
-                {loading ? (
-                    <div>로딩중</div>
-                ) : (
-                    articles.map((article, index) => {
-                        return (
-                            <Article
-                                key={index}
-                                id={article.id}
-                                title={article.title}
-                                imgsrc={article.imgsrc}
-                                text={article.text}
-                                outdate={article.deadline}
-                                writer={article.writer}
-                                postingDate={article.postingDate}
-                                openDate={article.openDate}
-                                session={session}
-                                refreshData={refreshData}
-                            />
-                        );
-                    })
+                <Login session={session} />
+                <div>
+                    {session && (
+                        <button
+                            onClick={() => {
+                                setWriting((prev) => {
+                                    return !prev;
+                                });
+                            }}
+                        >
+                            {writing ? "취소" : "신탁 올리기"}
+                        </button>
+                    )}
+                </div>
+                {writing && (
+                    <NewArticle
+                        refreshData={refreshData}
+                        setWriting={setWriting}
+                    />
                 )}
-            </div>
-        </main>
+                <div className={style.articles}>
+                    {loading ? (
+                        <div>로딩중</div>
+                    ) : (
+                        articles.map((article, index) => {
+                            return (
+                                <Article
+                                    key={index}
+                                    id={article.id}
+                                    title={article.title}
+                                    imgsrc={article.imgsrc}
+                                    text={article.text}
+                                    outdate={article.deadline}
+                                    writer={article.writer}
+                                    postingDate={article.postingDate}
+                                    openDate={article.openDate}
+                                    session={session}
+                                    refreshData={refreshData}
+                                />
+                            );
+                        })
+                    )}
+                </div>
+            </main>
+        </div>
     );
 };
 

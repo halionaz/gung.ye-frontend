@@ -1,6 +1,36 @@
-.main{
+.ttl{
     padding: 1rem;
     background-color: var(--GY-ivory);
+
+    display: flex;
+    flex-direction: column;
+}
+.top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+.logoimg{
+    width: 1.75rem;
+    height: 1.75rem;
+}
+.logoTxt{
+    font-size: 1.25rem;
+}
+.logobold{
+    font-weight: 600;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .userInfo{
