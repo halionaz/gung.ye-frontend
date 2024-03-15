@@ -42,8 +42,32 @@ const Article = ({
                 setMyAnswer(data.yourResponse);
             });
     };
-    const getProfileImg = () => {
-        // 작성자의 프로필 이미지를 가지고 옴
+
+    const getProfile = () => {
+        // 작성자 정보 가지고 옴
+    };
+
+    const deleteArticle = () => {
+        // 아티클을 지움
+        fetch(`api/articles`, {
+            method: "DELETE",
+            body: JSON.stringify({
+                id,
+            }),
+        }).then(() => {
+            refreshData();
+        });
+    };
+    const deleteAnswer = () => {
+        // 내 답변을 지움
+        fetch(`api/answers`, {
+            method: "DELETE",
+            body: JSON.stringify({
+                id: myAnswer,
+            }),
+        }).then(() => {
+            refreshArticleData();
+        });
     };
 
     useEffect(() => {
@@ -178,49 +202,6 @@ const Article = ({
             </div>
         </div>
     );
-
-    //     ) : myAnswer ? (
-    //         // 남이 작성했고, 답변이 완료된 아티클인 경우
-    //         <div>
-    //             답변 완료{" "}
-    //             <button
-    //                 onClick={() => {
-    //                     // 내 답변을 삭제하는 메소드
-    //                     fetch(`api/answers`, {
-    //                         method: "DELETE",
-    //                         body: JSON.stringify({
-    //                             id: myAnswer,
-    //                         }),
-    //                     }).then((res) => {
-    //                         refreshArticleData();
-    //                     });
-    //                 }}
-    //             >
-    //                 답변 삭제
-    //             </button>
-    //         </div>
-    //     ) : (
-    //         // 남이 작성했고, 미답변한 아티클인 경우
-    //     )}
-
-    //     {session?.user.email === writer && (
-    //         <div
-    //             className={style.deleteBtn}
-    //             onClick={() => {
-    //                 fetch("/api/articles", {
-    //                     method: "DELETE",
-    //                     body: JSON.stringify({
-    //                         id,
-    //                     }),
-    //                 }).then(() => {
-    //                     refreshData();
-    //                 });
-    //             }}
-    //         >
-    //             삭제
-    //         </div>
-    //     )}
-    // </div>
 };
 
 export default Article;
