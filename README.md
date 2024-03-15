@@ -9,6 +9,47 @@
 - 궁예지수 :: gung:ye 내에서 활용되는 점수이자 재화
 - 관심법지수 :: 신탁 답변에 대한 정답률
 
+## DATA Object
+
+```js
+// articles
+{
+    id: string,
+    title: string,
+    text: string,
+    writer: string,
+    postingDate: TimeStamp,
+    imgsrc: string,
+    deadline: TimeStamp,
+    openDate: TimeStamp
+}
+
+// answers
+{
+    id: string,
+    article: string,
+    answerVal: string,
+    respondent: string,
+    cost: int,
+    postingDate: TimeStamp
+}
+
+// users
+{
+    id: string,
+    point: int,
+    profileImg: string
+}
+
+// likes
+{
+    id: string,
+    article: string,
+    userID: string
+}
+
+```
+
 ## API
 
 ### Articles
@@ -38,8 +79,8 @@
 
 #### /api/answers/byarticle/[articleID]
 
-- GET - 신탁 ID를 받아, 그 신탁에 달린 답변들의 요약과, 세션의 답변 ID를 반환
-- [ ] DELETE - 신탁 ID를 받아, 그 신탁에 달린 답변들을 일괄 삭제
+- [ ] GET - 신탁 ID를 받아, 그 신탁에 달린 답변들의 요약(각 항목 별 답변 수, 총 판 돈)과, 세션의 답변 ID를 반환
+- [ ] DELETE - 신탁 ID를 받아, 그 신탁에 달린 답변들을 일괄 삭제 (만료일이 되기 전에 작성자만 가능하도록!)
 
 ## 기술 스택
 - Next.js :: 메인 프레임워크
