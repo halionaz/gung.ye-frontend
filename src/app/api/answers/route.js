@@ -1,13 +1,23 @@
 // api/answers
 
 import { getServerSession } from "next-auth";
-import { addDoc, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
+import {
+    Timestamp,
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+} from "firebase/firestore";
 import { NextResponse } from "next/server";
 import { db } from "../firebase";
 import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(request) {
     // request로부터 받은 데이터 서버에 추가
+
+    // COST :: 
+    // 사용자의 궁예지수가 충분할 때, 답변 가능한 로직
 
     const reqData = await request.json();
 
@@ -30,6 +40,7 @@ export async function POST(request) {
                         answerVal,
                         article,
                         respondent: sessionName,
+                        postingDate: Timestamp.fromDate(new Date()),
                     });
                 } catch (err) {
                     return NextResponse.json("서버에 데이터 추가 중 오류", {
