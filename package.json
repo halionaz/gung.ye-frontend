@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^1.5.0",
     "@prisma/client": "^5.11.0",
     "firebase": "^10.6.0",
     "next": "13.5.6",
