@@ -22,7 +22,7 @@ export async function GET(request, { params }) {
     const data = {};
     let yourResponse = undefined;
 
-    if(session){
+    if (session) {
         querySnapshot.forEach((doc) => {
             const answer = doc.data();
             if (data[answer.answerVal]) {
@@ -45,7 +45,6 @@ export async function GET(request, { params }) {
             }
         });
     }
-
 
     return NextResponse.json({ data, yourResponse });
 }

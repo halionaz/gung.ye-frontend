@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth/next";
 import GithubProvider from "next-auth/providers/github";
 
+// use `prisma` in your application to read and write data in your DB
 const prisma = new PrismaClient();
 
 const authOptions = {
