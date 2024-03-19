@@ -46,7 +46,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  gungyePoint   BigInt
+  gungyePoint   BigInt    @default(0)
   accounts      Account[]
   sessions      Session[]
   Article       Article[]
