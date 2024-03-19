@@ -46,10 +46,12 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  gungyePoint   BigInt
   accounts      Account[]
   sessions      Session[]
   Article       Article[]
   Answer        Answer[]
+  Likes         Likes[]
 }
 
 model VerificationToken {
@@ -72,6 +74,7 @@ model Article {
 
   user   User     @relation(fields: [userId], references: [id])
   Answer Answer[]
+  Likes  Likes[]
 }
 
 model Answer {
@@ -81,6 +84,15 @@ model Answer {
   answerVal   String   @db.Text
   postingDate DateTime @db.Timestamp
   cost        BigInt
+
+  article Article @relation(fields: [articleId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Likes {
+  id        String @id @default(cuid())
+  articleId String
+  userId    String
 
   article Article @relation(fields: [articleId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
