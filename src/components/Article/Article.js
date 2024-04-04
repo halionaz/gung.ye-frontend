@@ -19,20 +19,18 @@ const Article = ({
     const postingDateDate = new Date(postingDate);
     const openDateDate = new Date(openDate);
 
+    const [loading, setLoading] = useState(true);
     const [answerData, setAnswerData] = useState({});
     const [myAnswer, setMyAnswer] = useState(undefined);
+    const [writerProfile, setWriterProfile] = useState(undefined);
 
-    const refreshArticleData = () => {
-        fetch(`/api/answers/byarticle/${id}`, {
+    const refreshArticleData = async () => {
+        const res = await fetch(`/api/answers/byarticle/${id}`, {
             cache: "no-store",
-        }).then((data) => {
-            setAnswerData(data.data);
-            setMyAnswer(data.yourResponse);
         });
-    };
-
-    const getProfile = () => {
-        // 작성자 정보 가지고 옴
+        const answersData = await res.json();
+        setAnswerData(answersData.data);
+        setMyAnswer(answersData.yourResponse);
     };
 
     const deleteArticle = () => {
@@ -61,10 +59,25 @@ const Article = ({
     useEffect(() => {
         // article 컴포넌트가 업데이트 될 때
         // 이 article에 답변된 answer 데이터 가져오기
-        refreshArticleData();
+
+        const fetchData = async () => {
+            await refreshArticleData();
+
+            // 작성자 정보 가지고 옴
+            const res = await fetch(`/api/users/${writer}`, {
+                cache: "no-store",
+            });
+            const profileData = await res.json();
+            setWriterProfile(profileData);
+            setLoading(false);
+        };
+
+        fetchData();
     }, []);
 
-    return (
+    return loading ? (
+        <>로딩중</>
+    ) : (
         <div className={style.article}>
             <div className={style.top}>
                 {imgsrc && (
@@ -81,15 +94,19 @@ const Article = ({
                         <div className={style.profileImgBox}>
                             <img
                                 className={style.profileImg}
-                                src="https://avatars.githubusercontent.com/u/58812281?v=4"
+                                src={writerProfile.image}
                             ></img>
                         </div>
                         <div className={style.profile}>
                             <div className={style.upperProfile}>
-                                <div className={style.nickname}>{writer}</div>
+                                <div className={style.nickname}>
+                                    {writerProfile.name}
+                                </div>
                             </div>
                             <div className={style.lowerProfile}>
-                                <div className={style.gungyePoint}>368</div>
+                                <div className={style.gungyePoint}>
+                                    {writerProfile.gungyePoint}
+                                </div>
                                 <div className={style.profileBadge}>멋진거</div>
                             </div>
                         </div>
@@ -185,7 +202,9 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.rightPop}>
-                    <div className={style.more} onClick={deleteArticle}>...</div>
+                    <div className={style.more} onClick={deleteArticle}>
+                        ...
+                    </div>
                 </div>
             </div>
         </div>
