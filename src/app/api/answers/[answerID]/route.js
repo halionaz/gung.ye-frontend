@@ -18,8 +18,6 @@ export async function GET(request, { params }) {
         },
     });
 
-    console.log(data);
-
     if (data !== null) {
         return NextResponse.json(data);
     } else {
