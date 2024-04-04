@@ -1,10 +1,11 @@
 // api/answers/byarticle/[articleID]
 
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { db } from "@/app/api/firebase";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export async function GET(request, { params }) {
     // 게시물 ID를 받아서
@@ -15,29 +16,29 @@ export async function GET(request, { params }) {
 
     const articleID = params.articleID;
 
-    const answersRef = collection(db, "answers");
-    const q = query(answersRef, where("article", "==", articleID));
-    const querySnapshot = await getDocs(q);
+    const answers = await prisma.answer.findMany({
+        where: {
+            articleId: articleID,
+        },
+    });
 
     const data = {};
     let yourResponse = undefined;
 
     if (session) {
-        querySnapshot.forEach((doc) => {
-            const answer = doc.data();
+        answers.forEach((answer) => {
             if (data[answer.answerVal]) {
                 data[answer.answerVal]++;
             } else {
                 data[answer.answerVal] = 1;
             }
-            if (answer.respondent === session.user?.email) {
+            if (answer.userId === session.user?.id) {
                 // 현재 세션의 답변
-                yourResponse = doc.id;
+                yourResponse = answer.id;
             }
         });
     } else {
-        querySnapshot.forEach((doc) => {
-            const answer = doc.data();
+        answers.forEach((answer) => {
             if (data[answer.answerVal]) {
                 data[answer.answerVal]++;
             } else {

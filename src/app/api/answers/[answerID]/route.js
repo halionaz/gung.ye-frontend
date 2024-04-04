@@ -1,8 +1,9 @@
 // api/answers/[answerID]
 
-import { doc, getDoc } from "firebase/firestore";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { db } from "../../firebase";
+
+const prisma = new PrismaClient();
 
 export async function GET(request, { params }) {
     // 답변 ID를 받아
@@ -11,11 +12,16 @@ export async function GET(request, { params }) {
     const answerID = params.answerID;
 
     // ID를 통해 Doc 불러오기
-    const answerRef = doc(db, "answers", answerID);
-    const answerSnapshot = await getDoc(answerRef);
+    const data = await prisma.answer.findUnique({
+        where: {
+            id: answerID,
+        },
+    });
 
-    if (answerSnapshot.exists()) {
-        return NextResponse.json(answerSnapshot.data());
+    console.log(data);
+
+    if (data !== null) {
+        return NextResponse.json(data);
     } else {
         return NextResponse.json("NO DATA", { status: 404 });
     }

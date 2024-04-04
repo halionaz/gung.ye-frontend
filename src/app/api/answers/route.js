@@ -1,46 +1,47 @@
 // api/answers
 
 import { getServerSession } from "next-auth";
-import {
-    Timestamp,
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-} from "firebase/firestore";
 import { NextResponse } from "next/server";
 import { db } from "../firebase";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export async function POST(request) {
     // request로부터 받은 데이터 서버에 추가
 
-    // COST :: 
+    // COST ::
     // 사용자의 궁예지수가 충분할 때, 답변 가능한 로직
 
     const reqData = await request.json();
 
     const answerVal = reqData.answerVal;
-    const article = reqData.article;
+    const articleID = reqData.article;
 
     const session = await getServerSession(authOptions);
 
     if (session) {
         // 사용자가 정상적으로 로그인 했을 때
-        const sessionName = session.user?.email;
-        const articleRef = doc(db, "articles", article);
-        const articleSnapshot = await getDoc(articleRef);
-        if (articleSnapshot.exists()) {
+        const sessionID = session.user?.id;
+        const article = await prisma.article.findUnique({
+            where: {
+                id: articleID,
+            },
+        });
+        if (article !== null) {
             // 아티클이 존재할 때
-            if (sessionName !== articleSnapshot.data().writer) {
+            if (sessionID !== article.userId) {
                 // 아티클의 작성자와 답변자가 다를 때 DB 등록
                 try {
-                    const docRef = await addDoc(collection(db, "answers"), {
-                        answerVal,
-                        article,
-                        respondent: sessionName,
-                        postingDate: Timestamp.fromDate(new Date()),
+                    await prisma.answer.create({
+                        data: {
+                            answerVal,
+                            articleId: articleID,
+                            userId: sessionID,
+                            postingDate: new Date().toISOString(),
+                            cost: 1,
+                        },
                     });
                 } catch (err) {
                     return NextResponse.json("서버에 데이터 추가 중 오류", {
@@ -72,13 +73,21 @@ export async function DELETE(request) {
 
     const session = await getServerSession(authOptions);
 
-    const docRef = doc(db, "answers", answerID);
-    const docSnap = await getDoc(docRef);
+    const answer = await prisma.answer.findUnique({
+        where: {
+            id: answerID,
+        },
+    });
 
-    if (docSnap.exists()) {
+    if (answer !== null) {
         // id에 해당하는 답변 존재
-        if (docSnap.data().respondent === session.user?.email) {
+        if (answer.userId === session.user?.id) {
             // 답변 작성자와 세션 이메일이 같을 때 삭제 진행
+            await prisma.answer.delete({
+                where: {
+                    id: answerID,
+                },
+            });
             await deleteDoc(doc(db, "answers", answerID));
         }
     } else {
