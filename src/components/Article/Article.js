@@ -1,6 +1,5 @@
 // Main에 올라가는 신탁 컴포넌트
 
-import { Timestamp } from "firebase/firestore";
 import style from "./Article.module.css";
 import { useEffect, useState } from "react";
 
@@ -16,18 +15,9 @@ const Article = ({
     session,
     refreshData,
 }) => {
-    const outdateDate = new Timestamp(
-        outdate.seconds,
-        outdate.nanoseconds
-    ).toDate();
-    const postingDateDate = new Timestamp(
-        postingDate.seconds,
-        postingDate.nanoseconds
-    ).toDate();
-    const openDateDate = new Timestamp(
-        openDate.seconds,
-        openDate.nanoseconds
-    ).toDate();
+    const outdateDate = new Date(outdate);
+    const postingDateDate = new Date(postingDate);
+    const openDateDate = new Date(openDate);
 
     const [answerData, setAnswerData] = useState({});
     const [myAnswer, setMyAnswer] = useState(undefined);
@@ -35,12 +25,10 @@ const Article = ({
     const refreshArticleData = () => {
         fetch(`/api/answers/byarticle/${id}`, {
             cache: "no-store",
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setAnswerData(data.data);
-                setMyAnswer(data.yourResponse);
-            });
+        }).then((data) => {
+            setAnswerData(data.data);
+            setMyAnswer(data.yourResponse);
+        });
     };
 
     const getProfile = () => {
@@ -197,7 +185,7 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.rightPop}>
-                    <div className={style.more}>...</div>
+                    <div className={style.more} onClick={deleteArticle}>...</div>
                 </div>
             </div>
         </div>
