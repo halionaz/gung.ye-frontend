@@ -37,7 +37,9 @@ const Main = () => {
             <top className={style.top}>
                 <div className={style.logo}>
                     <img className={style.logoimg} src="/logo.svg"></img>
-                    <div className={style.logoTxt}>gung<span className={style.logobold}>:ye</span></div>
+                    <div className={style.logoTxt}>
+                        gung<span className={style.logobold}>:ye</span>
+                    </div>
                 </div>
             </top>
             <main className={style.main}>
@@ -82,10 +84,10 @@ const Main = () => {
                                     title={article.title}
                                     imgsrc={article.imgsrc}
                                     text={article.text}
-                                    outdate={article.deadline}
-                                    writer={article.writer}
-                                    postingDate={article.postingDate}
-                                    openDate={article.openDate}
+                                    outdate={article.dueDateTime}
+                                    writer={article.userId}
+                                    postingDate={article.postingDateTime}
+                                    openDate={article.openDateTime}
                                     session={session}
                                     refreshData={refreshData}
                                 />
