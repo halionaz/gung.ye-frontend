@@ -1,16 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Account {
@@ -26,10 +20,10 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId], map: "Account_userId_fkey")
 }
 
 model Session {
@@ -38,6 +32,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Session_userId_fkey")
 }
 
 model User {
@@ -46,12 +42,12 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  gungyePoint   BigInt    @default(0)
+  gungyePoint   Int    @default(0)
   accounts      Account[]
-  sessions      Session[]
-  Article       Article[]
   Answer        Answer[]
+  Article       Article[]
   Likes         Likes[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -68,13 +64,14 @@ model Article {
   text            String   @db.Text
   userId          String
   imgsrc          String   @db.VarChar(255)
-  postingDateTime DateTime @db.Timestamp
-  dueDateTime     DateTime @db.Timestamp
-  openDateTime    DateTime @db.Timestamp
+  postingDateTime DateTime @db.Timestamp(0)
+  dueDateTime     DateTime @db.Timestamp(0)
+  openDateTime    DateTime @db.Timestamp(0)
+  Answer          Answer[]
+  user            User     @relation(fields: [userId], references: [id])
+  Likes           Likes[]
 
-  user   User     @relation(fields: [userId], references: [id])
-  Answer Answer[]
-  Likes  Likes[]
+  @@index([userId], map: "Article_userId_fkey")
 }
 
 model Answer {
@@ -82,18 +79,22 @@ model Answer {
   articleId   String
   userId      String
   answerVal   String   @db.Text
-  postingDate DateTime @db.Timestamp
-  cost        BigInt
+  postingDate DateTime @db.Timestamp(0)
+  cost        Int
+  article     Article  @relation(fields: [articleId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 
-  article Article @relation(fields: [articleId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  @@index([articleId], map: "Answer_articleId_fkey")
+  @@index([userId], map: "Answer_userId_fkey")
 }
 
 model Likes {
-  id        String @id @default(cuid())
+  id        String  @id @default(cuid())
   articleId String
   userId    String
+  article   Article @relation(fields: [articleId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
 
-  article Article @relation(fields: [articleId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  @@index([articleId], map: "Likes_articleId_fkey")
+  @@index([userId], map: "Likes_userId_fkey")
 }
