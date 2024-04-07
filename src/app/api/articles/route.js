@@ -57,7 +57,6 @@ export async function POST(request) {
 export async function DELETE(request) {
     // request로 받은 id에 맞는 게시물 삭제
 
-    console.log("실행");
     const reqData = await request.json();
     const articleID = reqData.id;
 
@@ -69,8 +68,8 @@ export async function DELETE(request) {
         },
     });
 
-    if (article !== null) {
-        // 게시물이 존재하고
+    if (article !== null && session) {
+        // 게시물이 존재하고 session이 존재하며
         if (article.userId === session.user?.id) {
             // 게시물의 작성자와 세션이 같을 때 삭제 진행
             const deleteArticle = await prisma.article.delete({

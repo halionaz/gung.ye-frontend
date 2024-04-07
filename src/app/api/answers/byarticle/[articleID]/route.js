@@ -24,9 +24,11 @@ export async function GET(request, { params }) {
 
     const data = {};
     let yourResponse = undefined;
+    let pointSum = 0;
 
     if (session) {
         answers.forEach((answer) => {
+            pointSum += answer.cost;
             if (data[answer.answerVal]) {
                 data[answer.answerVal]++;
             } else {
@@ -34,7 +36,7 @@ export async function GET(request, { params }) {
             }
             if (answer.userId === session.user?.id) {
                 // 현재 세션의 답변
-                yourResponse = answer.id;
+                yourResponse = [answer.id, answer.answerVal];
             }
         });
     } else {
@@ -47,5 +49,10 @@ export async function GET(request, { params }) {
         });
     }
 
-    return NextResponse.json({ data, yourResponse });
+    return NextResponse.json({
+        data,
+        yourResponse,
+        pointSum,
+        totalNum: answers.length,
+    });
 }
