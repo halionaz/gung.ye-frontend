@@ -21,16 +21,14 @@ const Article = ({
 
     const [loading, setLoading] = useState(true);
     const [answerData, setAnswerData] = useState({});
-    const [myAnswer, setMyAnswer] = useState(undefined);
     const [writerProfile, setWriterProfile] = useState(undefined);
 
     const refreshArticleData = async () => {
         const res = await fetch(`/api/answers/byarticle/${id}`, {
             cache: "no-store",
         });
-        const answersData = await res.json();
-        setAnswerData(answersData.data);
-        setMyAnswer(answersData.yourResponse);
+        const data = await res.json();
+        setAnswerData(data);
     };
 
     const deleteArticle = () => {
@@ -49,7 +47,7 @@ const Article = ({
         fetch(`api/answers`, {
             method: "DELETE",
             body: JSON.stringify({
-                id: myAnswer,
+                id: answerData.yourResponse,
             }),
         }).then(() => {
             refreshArticleData();
@@ -120,60 +118,130 @@ const Article = ({
                     </div>
                 </div>
                 <div className={style.poll}>
-                    {session?.user.email !== writer &&
-                        // 다른 사람의 신탁인 경우
-                        (myAnswer ? (
-                            // 답변을 남긴 경우
-                            <div className={style.stat}>
-                                다른 사람들 통계 표시
-                            </div>
-                        ) : (
-                            // 답변을 남기지 않은 경우
-                            <div className={style.leftPoll}>
-                                <div
-                                    className={style.answerBtn}
-                                    onClick={() => {
-                                        fetch(`api/answers`, {
-                                            method: "POST",
-                                            body: JSON.stringify({
-                                                answerVal: "yes",
-                                                article: id,
-                                            }),
-                                        }).then(() => {
-                                            refreshArticleData();
-                                        });
-                                    }}
-                                >
-                                    <img
-                                        className={style.answerIcon}
-                                        src="/yes.svg"
-                                    />
-                                    <div className={style.yesBtn}>YES</div>
-                                </div>
-                                <div
-                                    className={style.answerBtn}
-                                    onClick={() => {
-                                        fetch(`api/answers`, {
-                                            method: "POST",
-                                            body: JSON.stringify({
-                                                answerVal: "no",
-                                                article: id,
-                                            }),
-                                        }).then(() => {
-                                            refreshArticleData();
-                                        });
-                                    }}
-                                >
-                                    <img
-                                        className={style.answerIcon}
-                                        src="/no.svg"
-                                    />
-                                    <div className={style.noBtn}>NO</div>
-                                </div>
-                            </div>
-                        ))}
+                    <div className={style.leftPoll}>
+                        {session?.user.id !== writer &&
+                            // 다른 사람의 신탁인 경우
+                            (answerData.yourResponse ? (
+                                // 답변을 남긴 경우
+                                <>
+                                    <div
+                                        className={style.answerBtn}
+                                        onClick={() => {
+                                            alert("답변 취소 로직");
+                                        }}
+                                    >
+                                        <img
+                                            className={style.answerIcon}
+                                            src="/yes.svg"
+                                        />
+                                        <div
+                                            className={[
+                                                style.yesBtn,
+                                                answerData.yourResponse[1] ===
+                                                    "yes" &&
+                                                    style.yesBtn_select,
+                                            ].join(' ')}
+                                        >
+                                            YES
+                                        </div>
+                                        <div className={style.graph}>
+                                            <div
+                                                className={style.yesGraph}
+                                                style={{
+                                                    width: `${
+                                                        (20 *
+                                                            (answerData.data
+                                                                .yes ?? 0)) /
+                                                        answerData.totalNum
+                                                    }rem`,
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        className={style.answerBtn}
+                                        onClick={() => {
+                                            alert("답변 취소 로직");
+                                        }}
+                                    >
+                                        <img
+                                            className={style.answerIcon}
+                                            src="/no.svg"
+                                        />
+                                        <div
+                                            className={[
+                                                style.noBtn,
+                                                answerData.yourResponse[1] ===
+                                                    "no" && style.noBtn_select,
+                                            ].join(' ')}
+                                        >
+                                            NO
+                                        </div>
+                                        <div className={style.graph}>
+                                            <div
+                                                className={style.noGraph}
+                                                style={{
+                                                    width: `${
+                                                        (20 *
+                                                            (answerData.data
+                                                                .no ?? 0)) /
+                                                        answerData.totalNum
+                                                    }rem`,
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </>
+                            ) : (
+                                // 답변을 남기지 않은 경우
+                                <>
+                                    <div
+                                        className={style.answerBtn}
+                                        onClick={() => {
+                                            fetch(`api/answers`, {
+                                                method: "POST",
+                                                body: JSON.stringify({
+                                                    answerVal: "yes",
+                                                    article: id,
+                                                }),
+                                            }).then(() => {
+                                                refreshArticleData();
+                                            });
+                                        }}
+                                    >
+                                        <img
+                                            className={style.answerIcon}
+                                            src="/yes.svg"
+                                        />
+                                        <div className={style.yesBtn}>YES</div>
+                                    </div>
+                                    <div
+                                        className={style.answerBtn}
+                                        onClick={() => {
+                                            fetch(`api/answers`, {
+                                                method: "POST",
+                                                body: JSON.stringify({
+                                                    answerVal: "no",
+                                                    article: id,
+                                                }),
+                                            }).then(() => {
+                                                refreshArticleData();
+                                            });
+                                        }}
+                                    >
+                                        <img
+                                            className={style.answerIcon}
+                                            src="/no.svg"
+                                        />
+                                        <div className={style.noBtn}>NO</div>
+                                    </div>
+                                </>
+                            ))}
+                    </div>
                     <div className={style.rightPoll}>
-                        <div className={style.totalStake}>760포인트</div>
+                        <div className={style.totalStake}>
+                            {answerData.pointSum}
+                        </div>
                     </div>
                 </div>
                 <div className={style.additionalInfo}>
@@ -190,16 +258,18 @@ const Article = ({
                 <div className={style.leftPop}>
                     <div className={style.participants}>
                         <div className={style.popularityTitle}>참여자</div>
-                        <div className={style.popularityNum}>75</div>
+                        <div className={style.popularityNum}>
+                            {answerData.totalNum}
+                        </div>
                     </div>
-                    <div className={style.likes}>
+                    {/* <div className={style.likes}>
                         <div className={style.popularityTitle}>좋아요</div>
                         <div className={style.popularityNum}>30</div>
                     </div>
                     <div className={style.comments}>
                         <div className={style.popularityTitle}>댓글</div>
                         <div className={style.popularityNum}>7</div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={style.rightPop}>
                     <div className={style.more} onClick={deleteArticle}>
