@@ -85,4 +85,3 @@
 ## 기술 스택
 - Next.js :: 메인 프레임워크
 - Next-auth :: 계정 구현 담당
-- Firebase :: 현재 임시 DB, 제대로 된 DB 구현 예정

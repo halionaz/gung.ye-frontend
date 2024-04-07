@@ -2,7 +2,6 @@
 
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { db } from "../firebase";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 
@@ -88,7 +87,6 @@ export async function DELETE(request) {
                     id: answerID,
                 },
             });
-            await deleteDoc(doc(db, "answers", answerID));
         }
     } else {
         return NextResponse.json("해당 ID의 답변이 존재하지 않습니다", {
