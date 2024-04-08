@@ -38,7 +38,10 @@ const Main = () => {
                 <div className={style.logo}>
                     <img className={style.logoimg} src="/logo.svg"></img>
                     <div className={style.logoTxt}>
-                        gung<span className={style.logobold}>:ye</span>
+                        <div>
+                            gung<span className={style.logobold}>:ye</span>
+                        </div>
+                        <img className={style.beta} src="/beta-symbol.png" />
                     </div>
                 </div>
             </top>
