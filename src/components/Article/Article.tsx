@@ -1,7 +1,21 @@
 // Main에 올라가는 신탁 컴포넌트
 
+import { Session } from 'next-auth';
 import style from './Article.module.css';
 import { useEffect, useState } from 'react';
+
+interface ArticleProps {
+  id: string;
+  title: string;
+  imgsrc: string;
+  text: string;
+  outdate: string;
+  writer: string;
+  postingDate: string;
+  openDate: string;
+  session: Session | null;
+  refreshData: () => void;
+}
 
 const Article = ({
   id,
@@ -14,7 +28,7 @@ const Article = ({
   openDate,
   session,
   refreshData,
-}) => {
+}: ArticleProps) => {
   const outdateDate = new Date(outdate);
   const postingDateDate = new Date(postingDate);
   const openDateDate = new Date(openDate);
@@ -66,6 +80,7 @@ const Article = ({
         cache: 'no-store',
       });
       const profileData = await res.json();
+      console.log(profileData);
       setWriterProfile(profileData);
       setLoading(false);
     };
