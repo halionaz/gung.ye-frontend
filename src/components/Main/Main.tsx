@@ -6,12 +6,13 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Article from '../Article/Article';
 import NewArticle from '../NewArticle/NewArticle';
+import { ArticleType } from '@/models/Article';
 
 const Main = () => {
   // 로그인 세션 관리
   const { data: session } = useSession();
 
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState<ArticleType[]>([]);
   const [loading, setLoading] = useState(true);
 
   // 새 아티클 작성 여부
@@ -48,7 +49,7 @@ const Main = () => {
       <main className={style.main}>
         {session && (
           <div className={style.userInfo}>
-            <img className={style.userImg} src={session.user?.image}></img>
+            <img className={style.userImg} src={session.user?.image!}></img>
             <div>{session.user?.name}</div>
           </div>
         )}
@@ -77,14 +78,7 @@ const Main = () => {
               return (
                 <Article
                   key={index}
-                  id={article.id}
-                  title={article.title}
-                  imgsrc={article.imgsrc}
-                  text={article.text}
-                  outdate={article.dueDateTime}
-                  writer={article.userId}
-                  postingDate={article.postingDateTime}
-                  openDate={article.openDateTime}
+                  article={article}
                   session={session}
                   refreshData={refreshData}
                 />

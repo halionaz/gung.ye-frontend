@@ -3,42 +3,27 @@
 import { Session } from 'next-auth';
 import style from './Article.module.css';
 import { useEffect, useState } from 'react';
+import { ArticleType } from '@/models/Article';
+import { AnswerType } from '@/models/Answer';
+import { UserType } from '@/models/User';
 
 interface ArticleProps {
-  id: string;
-  title: string;
-  imgsrc: string;
-  text: string;
-  outdate: string;
-  writer: string;
-  postingDate: string;
-  openDate: string;
+  article: ArticleType;
   session: Session | null;
   refreshData: () => void;
 }
 
-const Article = ({
-  id,
-  title,
-  imgsrc,
-  text,
-  outdate,
-  writer,
-  postingDate,
-  openDate,
-  session,
-  refreshData,
-}: ArticleProps) => {
-  const outdateDate = new Date(outdate);
-  const postingDateDate = new Date(postingDate);
-  const openDateDate = new Date(openDate);
+const Article = ({ article, session, refreshData }: ArticleProps) => {
+  const outdateDate = new Date(article.dueDateTime);
+  const postingDateDate = new Date(article.postingDateTime);
+  const openDateDate = new Date(article.openDateTime);
 
   const [loading, setLoading] = useState(true);
-  const [answerData, setAnswerData] = useState({});
-  const [writerProfile, setWriterProfile] = useState(undefined);
+  const [answerData, setAnswerData] = useState<AnswerType | null>();
+  const [writerProfile, setWriterProfile] = useState<UserType | null>();
 
   const refreshArticleData = async () => {
-    const res = await fetch(`/api/answers/byarticle/${id}`, {
+    const res = await fetch(`/api/answers/byarticle/${article.id}`, {
       cache: 'no-store',
     });
     const data = await res.json();
@@ -50,7 +35,7 @@ const Article = ({
     fetch(`api/articles`, {
       method: 'DELETE',
       body: JSON.stringify({
-        id,
+        id: article.id,
       }),
     }).then(() => {
       refreshData();
@@ -61,7 +46,7 @@ const Article = ({
     fetch(`api/answers`, {
       method: 'DELETE',
       body: JSON.stringify({
-        id: answerData.yourResponse,
+        id: answerData?.yourResponse,
       }),
     }).then(() => {
       refreshArticleData();
@@ -76,7 +61,7 @@ const Article = ({
       await refreshArticleData();
 
       // 작성자 정보 가지고 옴
-      const res = await fetch(`/api/users/${writer}`, {
+      const res = await fetch(`/api/users/${article.userId}`, {
         cache: 'no-store',
       });
       const profileData = await res.json();
@@ -93,27 +78,27 @@ const Article = ({
   ) : (
     <div className={style.article}>
       <div className={style.top}>
-        {imgsrc && (
+        {article.imgsrc && (
           <div className={style.imgBox}>
-            <img className={style.articleImg} src={imgsrc}></img>
+            <img className={style.articleImg} src={article.imgsrc}></img>
           </div>
         )}
         <div className={style.contentOutline}>
-          <div className={style.title}>{title}</div>
+          <div className={style.title}>{article.title}</div>
           <div className={style.postingDate}>
             {postingDateDate.toLocaleDateString()}
           </div>
           <div className={style.topProfile}>
             <div className={style.profileImgBox}>
-              <img className={style.profileImg} src={writerProfile.image}></img>
+              <img className={style.profileImg} src={writerProfile?.image}></img>
             </div>
             <div className={style.profile}>
               <div className={style.upperProfile}>
-                <div className={style.nickname}>{writerProfile.name}</div>
+                <div className={style.nickname}>{writerProfile?.name}</div>
               </div>
               <div className={style.lowerProfile}>
                 <div className={style.gungyePoint}>
-                  {writerProfile.gungyePoint}
+                  {writerProfile?.gungyePoint}
                 </div>
                 <div className={style.profileBadge}>멋진거</div>
               </div>
@@ -124,14 +109,14 @@ const Article = ({
       <div className={style.main}>
         <div className={style.contents}>
           <div className={style.detailContents}>
-            <div className={style.text}>{text}</div>
+            <div className={style.text}>{article.text}</div>
           </div>
         </div>
         <div className={style.poll}>
           <div className={style.leftPoll}>
-            {session?.user.id !== writer &&
+            {session?.user.id !== article.userId &&
               // 다른 사람의 신탁인 경우
-              (answerData.yourResponse ? (
+              (answerData?.yourResponse ? (
                 // 답변을 남긴 경우
                 <>
                   <div
@@ -144,7 +129,7 @@ const Article = ({
                     <div
                       className={[
                         style.yesBtn,
-                        answerData.yourResponse[1] === 'yes' &&
+                        answerData.yourResponse.answerVal === 'yes' &&
                           style.yesBtn_select,
                       ].join(' ')}
                     >
@@ -172,7 +157,7 @@ const Article = ({
                     <div
                       className={[
                         style.noBtn,
-                        answerData.yourResponse[1] === 'no' &&
+                        answerData.yourResponse.answerVal === 'no' &&
                           style.noBtn_select,
                       ].join(' ')}
                     >
@@ -201,7 +186,7 @@ const Article = ({
                         method: 'POST',
                         body: JSON.stringify({
                           answerVal: 'yes',
-                          article: id,
+                          article: article.id,
                         }),
                       }).then(() => {
                         refreshArticleData();
@@ -218,7 +203,7 @@ const Article = ({
                         method: 'POST',
                         body: JSON.stringify({
                           answerVal: 'no',
-                          article: id,
+                          article: article.id,
                         }),
                       }).then(() => {
                         refreshArticleData();
@@ -232,7 +217,7 @@ const Article = ({
               ))}
           </div>
           <div className={style.rightPoll}>
-            <div className={style.totalStake}>{answerData.pointSum}</div>
+            <div className={style.totalStake}>{answerData?.pointSum}</div>
           </div>
         </div>
         <div className={style.additionalInfo}>
@@ -249,7 +234,7 @@ const Article = ({
         <div className={style.leftPop}>
           <div className={style.participants}>
             <div className={style.popularityTitle}>참여자</div>
-            <div className={style.popularityNum}>{answerData.totalNum}</div>
+            <div className={style.popularityNum}>{answerData?.totalNum}</div>
           </div>
           {/* <div className={style.likes}>
                         <div className={style.popularityTitle}>좋아요</div>

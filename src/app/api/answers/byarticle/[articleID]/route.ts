@@ -27,7 +27,7 @@ export async function GET(
   });
 
   const data: { [key: string]: number } = {};
-  let yourResponse = undefined;
+  let yourResponse: { id?: string; answerVal?: string } = {};
   let pointSum = 0;
 
   if (session) {
@@ -40,7 +40,7 @@ export async function GET(
       }
       if (answer.userId === session.user?.id) {
         // 현재 세션의 답변
-        yourResponse = [answer.id, answer.answerVal];
+        yourResponse = { id: answer.id, answerVal: answer.answerVal };
       }
     });
   } else {
