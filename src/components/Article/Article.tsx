@@ -65,7 +65,6 @@ const Article = ({ article, session, refreshData }: ArticleProps) => {
         cache: 'no-store',
       });
       const profileData = await res.json();
-      console.log(profileData);
       setWriterProfile(profileData);
       setLoading(false);
     };
@@ -90,7 +89,10 @@ const Article = ({ article, session, refreshData }: ArticleProps) => {
           </div>
           <div className={style.topProfile}>
             <div className={style.profileImgBox}>
-              <img className={style.profileImg} src={writerProfile?.image}></img>
+              <img
+                className={style.profileImg}
+                src={writerProfile?.image}
+              ></img>
             </div>
             <div className={style.profile}>
               <div className={style.upperProfile}>

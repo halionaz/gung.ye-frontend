@@ -25,7 +25,7 @@ export async function GET(
 
   if (data !== null) {
     // BigInt -> number 호환을 위해 따로 만든 util json 이용
-    return NextResponse.json(json(data));
+    return NextResponse.json(JSON.parse(json(data)));
   } else {
     return NextResponse.json('NO DATA', { status: 404 });
   }
